@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPC Complete Guide</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Master your AKAI MPC with this comprehensive guide. Explore essential tips, advanced techniques, workflow hacks, and AI-powered suggestions for sampling, effects, patterns, sequencing, mixing, and more. Your ultimate resource for the MPC Standalone OS.">
+    <meta name="keywords" content="AKAI MPC, MPC Live, MPC One, MPC X, MPC Key, MPC Standalone, MPC OS, MPC Guide, MPC Tutorial, MPC Tips, MPC Tricks, Sampling, Effects, Sequencing, Drum Machine, Beatmaking, Hip Hop Production, Lofi, Workflow, Automation, Q-Links, MIDI, CV, Ableton Link, Serato, Troubleshooting, MPC Complete Guide, Charles A Paris, Music Production Guide, Beat Making Tutorial">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --akai-dark: #2c2c2c;
+            --akai-tan: #F5EFE1;
+            --akai-red: #C70000;
+            --akai-dark-red: #A60000;
+            --akai-light-text: #EAEAEA;
+            --akai-card-bg: #3a3a3a;
+            --akai-shadow: rgba(0, 0, 0, 0.25);
+            --akai-border: #4a4a4a;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--akai-dark);
+            color: var(--akai-light-text);
+            padding-top: 2rem;
+            padding-bottom: 4rem;
+        }
+
+        .card {
+            background-color: var(--akai-card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px var(--akai-shadow);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px var(--akai-shadow);
+        }
+        .tip-category-button, .difficulty-sort-button, .header-button {
+            background-color: #4a4a4a;
+            color: var(--akai-light-text);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 2px 5px var(--akai-shadow);
+            border: 1px solid #5a5a5a;
+        }
+        .tip-category-button:hover, .difficulty-sort-button:hover, .header-button:hover {
+            background-color: #5a5a5a;
+            transform: translateY(-2px);
+        }
+        .tip-category-button.active, .difficulty-sort-button.active {
+            background-color: var(--akai-red);
+            color: white;
+            box-shadow: 0 4px 15px rgba(200, 0, 0, 0.4);
+            border-color: var(--akai-dark-red);
+        }
+        .tip-item {
+            background-color: var(--akai-card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 5px solid var(--akai-red);
+        }
+        .featured-section {
+             background-color: #252525;
+             border: 1px solid var(--akai-border);
+             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .featured-tip {
+             background-color: var(--akai-card-bg);
+             border: 1px solid var(--akai-border);
+             transition: background-color 0.2s ease-in-out;
+        }
+        .featured-tip:hover {
+            background-color: #454545;
+        }
+        .modal {
+            background-color: rgba(0, 0, 0, 0.75);
+        }
+        .modal-content {
+            background-color: var(--akai-dark);
+            border-radius: 16px;
+            border: 2px solid var(--akai-border);
+        }
+        .close-button {
+            color: var(--akai-light-text);
+            font-size: 1.8rem;
+            transition: color 0.2s;
+        }
+        .close-button:hover {
+            color: var(--akai-red);
+        }
+        .search-input {
+            background-color: #3a3a3a;
+            border: 1px solid var(--akai-border);
+            color: var(--akai-light-text);
+            padding: 14px 20px;
+            border-radius: 8px;
+            outline: none;
+            width: 100%;
+            max-width: 450px;
+        }
+        .search-input::placeholder {
+            color: #9ca3af;
+        }
+        .search-button, #download-pdf-button, .see-more-button, #get-ai-suggestions, #back-to-tip-button, .donate-button {
+            background-color: var(--akai-red);
+            color: #ffffff;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(200, 0, 0, 0.3);
+            border: 1px solid var(--akai-dark-red);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .search-button:hover, #download-pdf-button:hover, .see-more-button:hover, #get-ai-suggestions:hover, #back-to-tip-button:hover, .donate-button:hover {
+            background-color: var(--akai-dark-red);
+            box-shadow: 0 6px 15px rgba(200, 0, 0, 0.4);
+        }
+        .ai-suggestions-container, .related-tips-container, .glossary-item {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--akai-border);
+        }
+        .tip-icon {
+            margin-right: 12px;
+            color: var(--akai-red);
+            font-size: 1.1em;
+        }
+        .copy-button {
+            background-color: #5a5a5a;
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .copy-button:hover {
+            background-color: #6a6a6a;
+        }
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 0.75em;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.375rem;
+        }
+        .difficulty-easy { color: #1f2937; background-color: #6ee7b7; }
+        .difficulty-intermediate { color: #1f2937; background-color: #fde047; }
+        .difficulty-hard { color: #f9fafb; background-color: #f87171; }
+        .details-view { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        footer { border-top: 1px solid var(--akai-border); padding-top: 2rem; margin-top: 4rem; }
+        .footer-link { transition: color 0.2s ease-in-out; color: #9ca3af; }
+        .footer-link:hover { color: var(--akai-red); }
+        h1, h2, h3, h4 { color: var(--akai-light-text); }
+        p, li { color: #b0b0b0; }
+        #modal-title, #details-title, #glossary-modal h3 { color: var(--akai-light-text); }
+        #modal-description, #modal-source, #details-content, #glossary-content p, #related-tips-list li { color: #b0b0b0; }
+        #ai-suggestions-content { color: #d0d0d0; }
+        .main-title {
+            background: -webkit-linear-gradient(45deg, var(--akai-tan), #d1c7b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center px-4">
+
+    <header class="w-full max-w-6xl text-center mb-12">
+        <div class="flex justify-between items-center mb-6">
+            <div></div> <!-- Spacer -->
+            <h1 class="text-5xl md:text-6xl font-extrabold main-title">MPC Complete Guide</h1>
+            <button id="glossary-button" class="header-button"><i class="fas fa-book mr-2"></i>Glossary</button>
+        </div>
+        <p class="text-xl md:text-2xl text-gray-400">Your ultimate resource for mastering the AKAI MPC.</p>
+    </header>
+
+    <main class="w-full max-w-6xl">
+        <div class="flex flex-col sm:flex-row justify-center items-center mb-12 gap-4">
+            <input type="search" id="search-input" placeholder="Search tips..." class="search-input">
+            <button id="search-button" class="search-button">Search</button>
+        </div>
+
+        <!-- Featured Techniques Section -->
+        <section class="mb-16 p-6 featured-section rounded-lg">
+            <h2 class="text-3xl font-bold text-center mb-6">Featured Techniques <i class="fa-solid fa-star tip-icon"></i></h2>
+            <div id="top-tips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Featured tips will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <div class="mb-12">
+            <h3 class="text-2xl font-bold text-center mb-6">Filter by Category</h3>
+            <div id="category-filter-container" class="flex flex-wrap justify-center gap-4">
+                <!-- Category buttons will be dynamically loaded here -->
+            </div>
+        </div>
+        
+        <div id="difficulty-filter-container" class="flex flex-wrap justify-center gap-4 mb-16">
+            <button class="difficulty-sort-button active" data-difficulty="all">All Difficulties</button>
+            <button class="difficulty-sort-button" data-difficulty="Easy">Easy</button>
+            <button class="difficulty-sort-button" data-difficulty="Intermediate">Intermediate</button>
+            <button class="difficulty-sort-button" data-difficulty="Hard">Hard</button>
+        </div>
+
+        <section id="tips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <!-- Tips will be loaded here by JavaScript -->
+        </section>
+        
+        <div class="flex justify-center mt-16">
+            <button id="download-pdf-button" class="search-button"><i class="fa-solid fa-file-pdf"></i> Download All Tips as PDF</button>
+        </div>
+    </main>
+
+     <!-- Tip Modal -->
+    <div id="tip-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-2xl p-8 relative overflow-y-auto max-h-[90vh]">
+            <button id="close-modal" class="close-button absolute top-4 right-4 z-10">&times;</button>
+            
+            <!-- Main Tip View -->
+            <div id="main-tip-view">
+                <h3 id="modal-title" class="text-3xl font-semibold mb-6"></h3>
+                <p id="modal-description" class="text-lg leading-relaxed"></p>
+                <p id="modal-source" class="text-sm mt-6"></p>
+
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <button id="copy-tip-button" class="copy-button"><i class="fa-solid fa-copy"></i> Copy Tip</button>
+                    <button id="see-more-button" class="see-more-button"><i class="fa-solid fa-circle-info"></i> See More</button>
+                </div>
+
+                <div id="ai-suggestions-section" class="ai-suggestions-container">
+                    <h4 class="text-2xl font-semibold mb-4">AI Suggestions</h4>
+                    <div id="ai-suggestions-content" class="text-lg leading-relaxed"></div>
+                    <button id="get-ai-suggestions" class="search-button mt-6">Get More AI Ideas</button>
+                    <span id="ai-loading-indicator" class="loading-indicator hidden">Loading...</span>
+                </div>
+                
+                <div id="related-tips-container" class="related-tips-container">
+                     <h4 class="text-2xl font-semibold mb-4">Related Tips</h4>
+                     <ul id="related-tips-list" class="list-disc list-inside"></ul>
+                </div>
+            </div>
+
+            <!-- Detailed Explanation View -->
+            <div id="details-view" class="hidden details-view">
+                 <h3 id="details-title" class="text-3xl font-semibold mb-6"></h3>
+                 <div id="details-content" class="text-lg leading-relaxed"></div>
+                 <button id="back-to-tip-button" class="search-button mt-6"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                 <span id="details-loading-indicator" class="loading-indicator hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Glossary Modal -->
+    <div id="glossary-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-2xl p-8 relative overflow-y-auto max-h-[90vh]">
+            <button id="close-glossary-modal" class="close-button absolute top-4 right-4 z-10">&times;</button>
+            <h3 class="text-4xl font-semibold mb-6">Glossary</h3>
+            <input type="search" id="glossary-search-input" placeholder="Search terms..." class="search-input mb-6 w-full">
+            <div id="glossary-content" class="text-lg leading-relaxed"></div>
+        </div>
+    </div>
+    
+    <footer class="w-full max-w-6xl text-center text-gray-500">
+        <p class="mb-4">Built by <a href="https://365otg.github.io/365CP/" target="_blank" class="font-bold footer-link">Charles A Paris</a></p>
+        <div class="flex justify-center items-center gap-6 text-2xl">
+            <a href="https://twitter.com/365charlesparis" target="_blank" class="footer-link"><i class="fab fa-twitter"></i></a>
+            <a href="https://youtube.com/365charlesparis" target="_blank" class="footer-link"><i class="fab fa-youtube"></i></a>
+            <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Donate</a>
+        </div>
+    </footer>
+
+
+    <script>
+        // Ensure jsPDF is loaded before use
+        const { jsPDF } = window.jspdf;
+
+        const tipsData = [
+            // --- Concepts & Setup ---
+            { id: 101, category: "concepts_setup", title: "Understanding Track Types", description: "MPC sequences are made of tracks: Audio, Drum, Keygroup, Plugin, MIDI, and CV. Each type serves a unique purpose for creating different elements of your song.", source: "Manual p.40", difficulty: "Easy" },
+            { id: 102, category: "concepts_setup", title: "Project vs. Program vs. Sample", description: "A Project contains everything: sequences, tracks, programs, and samples. A Program (like a Drum Kit or Keygroup) holds samples and their settings. A Sample is the raw audio file.", source: "Manual p.356", difficulty: "Easy" },
+            { id: 103, category: "concepts_setup", title: "Standalone vs. Controller Mode", description: "Standalone Mode runs the entire OS on the MPC hardware itself. Controller Mode connects the MPC to a computer to control the MPC 2 software or other DAWs like Ableton Live.", source: "Manual p.54", difficulty: "Easy" },
+            { id: 104, category: "concepts_setup", title: "Installing a SATA Drive", description: "Expand your internal storage by installing a 2.5” SATA drive (SSD or HDD). This allows you to store more projects, samples, and content directly on your MPC.", source: "Manual p.427", difficulty: "Intermediate" },
+            { id: 105, category: "concepts_setup", title: "Activating Plugins", description: "Connect your MPC to the internet via Wi-Fi or Ethernet, then go to Preferences > Activate Plugins to log into your inMusic account and activate purchased instruments and effects.", source: "Manual p.57", difficulty: "Easy" },
+            
+            // --- Main Mode & Workflow ---
+            { id: 1, category: "main_mode_workflow", title: "Use Templates for Faster Startup", description: "Create a project template with your favorite drum kits, plugins, and mixer settings. Save it via Menu > Save > Save as Template. Load it automatically from Preferences > Project Load/Save.", source: "Manual p.63", difficulty: "Easy", topTip: true },
+            { id: 2, category: "main_mode_workflow", title: "Explode Drum Tracks for Mixing", description: "After programming a drum pattern, use Track Edit > Explode Track. This separates each drum pad (kick, snare, etc.) onto its own track for individual mixing, effects, and automation.", source: "Manual p.124", difficulty: "Intermediate" },
+            { id: 18, category: "main_mode_workflow", title: "Using the Looper for Quick Ideas", description: "The Looper is perfect for capturing spontaneous ideas without stopping playback. Record a vocal line or instrument part, then export it as a sample to use in your project immediately.", source: "Manual p.323", difficulty: "Intermediate" },
+            { id: 19, category: "main_mode_workflow", title: "Next Sequence Mode for Live Arranging", description: "Use Next Sequence mode to trigger different sequences on the fly by pressing pads. This is a powerful tool for live performance, allowing you to arrange your song in real-time.", source: "Manual p.301", difficulty: "Intermediate" },
+            { id: 28, category: "main_mode_workflow", title: "Using the Undo History", description: "Made a series of mistakes? Tap the clock icon in the toolbar to open Undo History. You can see a list of recent actions and revert back to a specific point.", source: "Manual p.53", difficulty: "Easy" },
+            { id: 38, category: "main_mode_workflow", title: "Convert Song to Sequence", description: "After arranging your track in Song Mode, use the 'Convert > Seq' function to bounce the entire arrangement into a single, linear sequence for further editing or exporting.", source: "Manual p.313", difficulty: "Intermediate" },
+            
+            // --- Sampling & Sampler Mode ---
+            { id: 5, category: "sampling_sampler", title: "Non-Destructive Slicing", description: "In Sample Edit > Chop, create your slices. Instead of converting to a new program immediately, you can play the slices directly from this mode. The MPC creates a temporary slice program, saving memory and time.", source: "Manual p.25", difficulty: "Intermediate", topTip: true },
+            { id: 20, category: "sampling_sampler", title: "Auto-Sampler for Hardware Synths", description: "Use the Auto-Sampler (in Sampler mode) to automatically create a keygroup program from an external hardware synthesizer. It will play and record notes across a defined range and velocity.", source: "Manual p.289", difficulty: "Hard" },
+            { id: 30, category: "sampling_sampler", title: "Recording with a Threshold", description: "In the Sampler, set a recording threshold. Recording will only begin when the incoming audio signal exceeds this level, preventing silence at the start of your samples.", source: "Manual p.283", difficulty: "Easy" },
+            { id: 39, category: "sampling_sampler", title: "Resampling Internal Audio", description: "In the Sampler, set the input source to 'Resample L+R' to record any audio playing within your MPC project. This is perfect for creating new loops or flattening tracks with effects.", source: "Manual p.282", difficulty: "Intermediate" },
+
+            // --- Sample Edit Mode ---
+            { id: 21, category: "sample_edit", title: "Time Stretching with Warp", description: "In Sample Edit, use the Warp function to change a sample's length without altering its pitch. This is essential for matching loops to your project's tempo.", source: "Manual p.166", difficulty: "Intermediate" },
+            { id: 22, category: "sample_edit", title: "Create Stems with AI", description: "In Sample Edit, use the 'Create Stems' function to separate a sample into vocals, bass, drums, and other musical elements using AI. A powerful tool for remixing and sampling.", source: "Manual p.186", difficulty: "Hard" },
+            { id: 31, category: "sample_edit", title: "Discard, Extract, and Process Slices", description: "In Sample Edit, use the Process menu to apply effects like Normalize, Reverse, or Pitch Shift to your sample. You can also Discard unwanted parts or Extract a selection as a new sample.", source: "Manual p.262", difficulty: "Intermediate" },
+            { id: 40, category: "sample_edit", title: "Using Chop Mode", description: "In Sample Edit, use Chop Mode to slice a sample into regions based on transients, BPM, or a set number of regions. This is the foundation of classic MPC workflows.", source: "Manual p.267", difficulty: "Easy" },
+            { id: 41, category: "sample_edit", title: "Zero Snap for Clean Loops", description: "In Sample Edit settings, enable 'Zero Snap' to force start and end points to a zero-crossing in the waveform. This prevents clicks and pops in your loops.", source: "Manual p.256", difficulty: "Intermediate" },
+
+            // --- Sequencing & Grid View ---
+            { id: 8, category: "sequencing_grid", title: "Humanize Your Quantized Patterns", description: "After recording a quantized sequence, go to Sequence Edit > Humanize. Apply subtle randomization to timing and velocity to make your MIDI patterns feel more natural and less robotic.", source: "Manual p.155", difficulty: "Intermediate", topTip: true },
+            { id: 33, category: "sequencing_grid", title: "Using Timing Correct (TC)", description: "Access the Timing Correct (TC) window to quantize your MIDI performances. You can adjust the time division, swing, strength, and other parameters to get the perfect feel.", source: "Manual p.70", difficulty: "Easy" },
+            { id: 42, category: "sequencing_grid", title: "Editing Velocity in Grid View", description: "In Grid View, expand the velocity lane at the bottom to see and edit the velocity of each note. You can draw in new velocities with the pencil tool for dynamic patterns.", source: "Manual p.173", difficulty: "Easy" },
+            { id: 43, category: "sequencing_grid", title: "Double the Length of a Sequence", description: "In Main Mode, tap the pencil icon next to the sequence name and select 'Double Length'. This will double the sequence length and duplicate all events, perfect for building out a pattern.", source: "Manual p.111", difficulty: "Easy" },
+
+            // --- Track Edit & Programs ---
+            { id: 6, category: "track_edit_programs", title: "Layer Samples with Velocity Switching", description: "In a Drum Program, assign multiple samples to the same pad on different layers. Use the Velocity Start/End ranges to trigger different samples depending on how hard you hit the pad.", source: "Manual p.191", difficulty: "Hard" },
+            { id: 13, category: "track_edit_programs", title: "Flatten Pads to Save CPU", description: "If a drum pad has many layers and effects, it can use a lot of CPU. In Track Edit, use the 'Flatten Pad' function to resample the pad's entire sound into a single new sample, freeing up resources.", source: "Manual p.186", difficulty: "Intermediate" },
+            { id: 17, category: "track_edit_programs", title: "Use the Mod Matrix for Complex Sounds", description: "In a Keygroup or Plugin program, use the Mod Matrix to route modulation sources (like LFOs or envelopes) to destinations (like pitch or filter cutoff) for evolving, complex sound design.", source: "Manual p.238", difficulty: "Hard" },
+            { id: 44, category: "track_edit_programs", title: "Shaping Sounds with Envelopes", description: "In Track Edit, use the Amp and Filter envelopes to shape your sounds. Adjust the Attack, Decay, Sustain, and Release (ADSR) to control how a sound's volume and timbre evolve over time.", source: "Manual p.197", difficulty: "Intermediate" },
+
+            // --- Mixing & Effects ---
+            { id: 11, category: "mixing_effects", title: "Parallel Process with Submixes", description: "Route multiple tracks (e.g., all your drums) to a Submix track. Apply effects like compression or saturation to the Submix to glue the sounds together without affecting the individual tracks.", source: "Pro Mixing Technique", difficulty: "Hard", topTip: true },
+            { id: 25, category: "mixing_effects", title: "Using Send/Return Effects", description: "Instead of adding a reverb to every track, add one to a Return channel. Then, use the 'Sends' on each track to send a portion of its signal to that shared reverb, saving CPU and creating a cohesive mix.", source: "Manual p.90", difficulty: "Intermediate" },
+            { id: 26, category: "mixing_effects", title: "XYFX for Performance Effects", description: "Use XYFX mode to control two effect parameters at once with the touchscreen. You can record these movements as automation for expressive, real-time sound manipulation.", source: "Manual p.147", difficulty: "Intermediate" },
+            { id: 34, category: "mixing_effects", title: "Using the Channel Mixer", description: "Go to the Channel Mixer to get a traditional mixing board view of your tracks, submixes, returns, and main outputs. Adjust levels, panning, and sends for your entire project.", source: "Manual p.136", difficulty: "Easy" },
+            { id: 35, category: "mixing_effects", title: "Pad-Specific Effects", description: "In a Drum Program, you can add up to four insert effects to an individual pad. This is great for processing a single drum sound (like a snare) without affecting the rest of the kit.", source: "Manual p.86", difficulty: "Intermediate" },
+            { id: 45, category: "mixing_effects", title: "Using the Mother Ducker", description: "Apply the 'Mother Ducker Input' effect to your kick drum track, and the 'Mother Ducker' effect to your bass or sample track to create an automatic sidechain compression effect.", source: "Manual p.371", difficulty: "Hard" },
+
+             // --- Integration & Hardware ---
+            { id: 14, category: "integration", title: "Use an External Audio Interface", description: "Connect a class-compliant USB audio interface in Preferences > Audio Device to expand your inputs and outputs, allowing you to record multiple instruments at once.", source: "Manual p.58", difficulty: "Intermediate" },
+            { id: 15, category: "integration", title: "Sync with Ableton Link", description: "In Preferences > MIDI/Sync, enable Ableton Link. This will wirelessly sync the tempo of your MPC with Ableton Live or any other Link-enabled app on the same network.", source: "Manual p.60", difficulty: "Easy" },
+            { id: 27, category: "integration", title: "Control Hardware with CV/Gate", description: "Use the CV/Gate outputs on your MPC to sequence and modulate modular synthesizers and other analog gear directly from your MPC, integrating it into a larger hardware setup.", source: "Manual p.51", difficulty: "Hard" },
+            { id: 36, category: "integration", title: "MIDI Learn for External Controllers", description: "Use MIDI Learn mode to map knobs and faders from an external MIDI controller to parameters within the MPC software, such as mixer levels or plugin controls.", source: "Manual p.303", difficulty: "Intermediate" },
+            { id: 37, category: "integration", title: "Ableton Live Control Mode", description: "Connect your MPC to a computer and enter Ableton Live Control mode to use your hardware to launch clips, control the mixer, and manipulate devices in Ableton Live.", source: "Manual p.305", difficulty: "Hard" },
+            
+            // --- Pro Tips ---
+            { id: 16, category: "pro_tips", title: "Create Your Own Progressions", description: "Record a series of chords on a MIDI track. Then, go to Arrangement Edit > Convert to Progression. This saves your unique chord progression for use in Pad Perform mode.", source: "Manual p.156", difficulty: "Hard", topTip: true },
+            { id: 4, category: "pro_tips", title: "Resample Your Own Melodies", description: "Route a track's output to an audio input in the Sampler. Play your melody and record it as a new sample. You can then chop, pitch, and process your own performance for new ideas.", source: "Pro Workflow", difficulty: "Hard", topTip: true },
+            { id: 29, category: "pro_tips", title: "Customizing Q-Link Modes", description: "Use Q-Link Edit mode to create custom macros. Assign your most-used parameters (like filter cutoff, delay feedback, etc.) to a single Q-Link knob for powerful, one-knob control.", source: "Manual p.291", difficulty: "Hard", topTip: true }
+        ];
+
+        const glossaryData = [
+            { term: "ADSR", definition: "Stands for Attack, Decay, Sustain, Release. These are the four stages of a standard sound envelope that shape its volume or other parameters over time." },
+            { term: "Aftertouch", definition: "MIDI data sent when pressure is applied to a key or pad after it has been initially struck. It's often used for expressive control like adding vibrato or filter sweeps." },
+            { term: "Arpeggiator", definition: "A device or function that automatically creates arpeggios (broken chords) from held notes. The MPC's arpeggiator can create complex melodic and rhythmic patterns." },
+            { term: "Automation", definition: "The process of recording the movement of knobs, faders, and other parameters over time, allowing for dynamic changes in a mix or sound." },
+            { term: "BPM", definition: "Beats Per Minute. The unit of measurement for the tempo of a piece of music." },
+            { term: "Clipping", definition: "A form of distortion that occurs when an audio signal's amplitude exceeds the maximum level that a system can handle." },
+            { term: "Compressor", definition: "An audio effect that reduces the dynamic range of a signal, making quiet parts louder and loud parts quieter for a more controlled and punchy sound." },
+            { term: "CV/Gate", definition: "Control Voltage and Gate. An analog method for synthesizers to communicate. CV typically controls pitch, while Gate signals control when a note starts and stops." },
+            { term: "DAW", definition: "Digital Audio Workstation. A software application used for recording, editing, and producing audio files (e.g., Ableton Live, FL Studio, Logic Pro)." },
+            { term: "Envelope", definition: "A shape that changes a sound's characteristics over time. Most commonly used for volume (Amp Envelope) and filter cutoff (Filter Envelope)." },
+            { term: "Filter", definition: "An effect that removes or boosts certain frequencies from a sound. Common types are Low-Pass (removes highs), High-Pass (removes lows), and Band-Pass (removes highs and lows)." },
+            { term: "Keygroup Program", definition: "An MPC program type where a sample is pitched across the pads or a keyboard, allowing you to play it melodically." },
+            { term: "LFO", definition: "Low-Frequency Oscillator. An oscillator that moves very slowly, used to modulate parameters like pitch (for vibrato), volume (for tremolo), or filter cutoff to create movement in a sound." },
+            { term: "MIDI", definition: "Musical Instrument Digital Interface. A protocol that allows electronic instruments, computers, and other devices to communicate with each other." },
+            { term: "Quantize", definition: "The process of aligning MIDI notes to a specific rhythmic grid to correct timing imperfections. Also known as Time Correction (TC) on the MPC." },
+            { term: "Sample Rate", definition: "The number of times per second that a sample of an analog audio signal is taken to convert it into a digital signal. A standard CD uses a sample rate of 44.1 kHz (44,100 times per second)." },
+            { term: "Submix", definition: "A track that groups the audio output of several other tracks together. This allows you to process a group of sounds (like all your drums) with the same effects." },
+            { term: "Velocity", definition: "A MIDI value that represents how hard a key or pad was struck (from 0 to 127). It typically controls the volume of a note, but can be mapped to other parameters." },
+            { term: "Warp", definition: "An algorithm that allows you to change the tempo (speed) of an audio sample without changing its pitch. Also known as time-stretching." }
+        ];
+
+        const tipsContainer = document.getElementById('tips-container');
+        const topTipsContainer = document.getElementById('top-tips-container');
+        const categoryFilterContainer = document.getElementById('category-filter-container');
+        const difficultySortButtons = document.querySelectorAll('.difficulty-sort-button');
+        const tipModal = document.getElementById('tip-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const glossaryModal = document.getElementById('glossary-modal');
+        const closeGlossaryModalButton = document.getElementById('close-glossary-modal');
+        const glossaryButton = document.getElementById('glossary-button');
+        const glossaryContent = document.getElementById('glossary-content');
+        const glossarySearchInput = document.getElementById('glossary-search-input');
+        
+        const mainTipView = document.getElementById('main-tip-view');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalSource = document.getElementById('modal-source');
+        const copyTipButton = document.getElementById('copy-tip-button');
+        const seeMoreButton = document.getElementById('see-more-button');
+
+        const detailsView = document.getElementById('details-view');
+        const detailsTitle = document.getElementById('details-title');
+        const detailsContent = document.getElementById('details-content');
+        const detailsLoadingIndicator = document.getElementById('details-loading-indicator');
+        const backToTipButton = document.getElementById('back-to-tip-button');
+
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const downloadPdfButton = document.getElementById('download-pdf-button');
+
+        const aiSuggestionsSection = document.getElementById('ai-suggestions-section');
+        const aiSuggestionsContent = document.getElementById('ai-suggestions-content');
+        const getAiSuggestionsButton = document.getElementById('get-ai-suggestions');
+        const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
+        
+        const relatedTipsList = document.getElementById('related-tips-list');
+
+        let currentCategory = 'all';
+        let currentDifficulty = 'all';
+        let currentTip = null;
+
+        const categoryIcons = {
+            concepts_setup: 'fa-solid fa-lightbulb',
+            main_mode_workflow: 'fa-solid fa-bolt',
+            sampling_sampler: 'fa-solid fa-microphone-lines',
+            sample_edit: 'fa-solid fa-wave-square',
+            sequencing_grid: 'fa-solid fa-grip-horizontal',
+            track_edit_programs: 'fa-solid fa-sliders',
+            mixing_effects: 'fa-solid fa-headphones',
+            integration: 'fa-solid fa-microchip',
+            pro_tips: 'fa-solid fa-star'
+        };
+
+        function getIconHtml(category) {
+            const iconClass = categoryIcons[category] || 'fa-solid fa-info-circle';
+            return `<i class="${iconClass} tip-icon"></i>`;
+        }
+        
+        function getDifficultyBadge(difficulty) {
+            if (!difficulty) return '';
+            const lowerCaseDifficulty = difficulty.toLowerCase();
+            let badgeClass = '';
+            switch(lowerCaseDifficulty) {
+                case 'easy': badgeClass = 'difficulty-easy'; break;
+                case 'intermediate': badgeClass = 'difficulty-intermediate'; break;
+                case 'hard': badgeClass = 'difficulty-hard'; break;
+            }
+            return `<span class="difficulty-badge ${badgeClass}">${difficulty}</span>`;
+        }
+
+        function populateCategories() {
+            const categories = [...new Set(tipsData.map(tip => tip.category))];
+            categoryFilterContainer.innerHTML = '<button class="tip-category-button active" data-category="all">All Tips</button>';
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = 'tip-category-button';
+                button.dataset.category = category;
+                button.textContent = category.charAt(0).toUpperCase() + category.slice(1).replace(/_/g, ' & ');
+                categoryFilterContainer.appendChild(button);
+            });
+            document.querySelectorAll('.tip-category-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.tip-category-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    currentCategory = button.dataset.category;
+                    displayTips(currentCategory, searchInput.value, currentDifficulty);
+                });
+            });
+        }
+
+        function displayTips(category, searchTerm = '', difficulty = 'all') {
+            tipsContainer.innerHTML = '';
+            let filteredTips = tipsData;
+
+            if (category !== 'all') {
+                filteredTips = filteredTips.filter(tip => tip.category === category);
+            }
+
+            if (difficulty !== 'all') {
+                filteredTips = filteredTips.filter(tip => tip.difficulty === difficulty);
+            }
+
+            if (searchTerm) {
+                const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                filteredTips = filteredTips.filter(tip =>
+                    tip.title.toLowerCase().includes(lowerCaseSearchTerm) ||
+                    tip.description.toLowerCase().includes(lowerCaseSearchTerm)
+                );
+            }
+
+            if (filteredTips.length === 0) {
+                tipsContainer.innerHTML = '<p class="text-center col-span-full">No tips found.</p>';
+                return;
+            }
+
+            filteredTips.forEach(tip => {
+                const tipElement = document.createElement('div');
+                tipElement.className = 'card tip-item cursor-pointer';
+                tipElement.innerHTML = `
+                    <div class="flex-grow">
+                        <h4 class="text-xl font-semibold mb-2">${getIconHtml(tip.category)}${tip.title}</h4>
+                        <p class="text-sm mb-2">${tip.description}</p>
+                    </div>
+                    <div class="mt-auto pt-2 flex justify-between items-center">
+                         <span class="text-xs text-gray-500">${tip.source}</span>
+                         ${getDifficultyBadge(tip.difficulty)}
+                    </div>
+                `;
+                tipElement.addEventListener('click', () => openModal(tip));
+                tipsContainer.appendChild(tipElement);
+            });
+        }
+        
+        function displayTopTips() {
+            topTipsContainer.innerHTML = '';
+            const topTips = tipsData.filter(tip => tip.topTip).slice(0, 6); // Ensure exactly 6 tips
+            topTips.forEach(tip => {
+                const tipElement = document.createElement('div');
+                tipElement.className = 'featured-tip p-4 rounded-lg cursor-pointer';
+                tipElement.innerHTML = `
+                    <h4 class="text-lg font-semibold mb-2">${getIconHtml(tip.category)}${tip.title}</h4>
+                    <p class="text-sm text-gray-400">${tip.description}</p>
+                `;
+                tipElement.addEventListener('click', () => openModal(tip));
+                topTipsContainer.appendChild(tipElement);
+            });
+        }
+
+        async function getAISuggestions(tip) {
+            aiSuggestionsContent.innerHTML = '';
+            aiLoadingIndicator.classList.remove('hidden');
+            getAiSuggestionsButton.disabled = true;
+
+            const prompt = `Provide a concise, advanced "pro tip" or creative suggestion for using the AKAI MPC related to the following tip. Also, explain why this tip matters or how it enhances workflow/creativity.
+            Original Tip Title: "${tip.title}"
+            Original Tip Description: "${tip.description}"
+            Format your response as:
+            "**Pro Tip:** [Your creative pro tip here]
+            **Why it matters:** [Explanation of its importance/benefit here]"`;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates[0]?.content?.parts[0]) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    aiSuggestionsContent.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                    tip.ai_suggestion = text;
+                } else {
+                    aiSuggestionsContent.textContent = "Could not generate suggestions. Please try again.";
+                }
+            } catch (error) {
+                console.error("Error fetching AI suggestions:", error);
+                aiSuggestionsContent.textContent = "Failed to fetch suggestions due to an error.";
+            } finally {
+                aiLoadingIndicator.classList.add('hidden');
+                getAiSuggestionsButton.disabled = false;
+            }
+        }
+
+        async function getDetailedExplanation(tip) {
+            detailsContent.innerHTML = '';
+            detailsLoadingIndicator.classList.remove('hidden');
+            
+            const prompt = `Based on the official AKAI MPC manual, explain the importance of the following tip in detail. Provide full context, including: 1. **Why it's important:** (Explain the core concept). 2. **Practical Example:** (Give a step-by-step scenario). 3. **Workflow Impact:** (How it improves creativity or speed). Format the response clearly with bold headings.
+            Tip Title: "${tip.title}"
+            Tip Description: "${tip.description}"`;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates[0]?.content?.parts[0]) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    detailsContent.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br><br>');
+                    tip.detailed_explanation = text;
+                } else {
+                    detailsContent.textContent = "Could not generate a detailed explanation. Please try again.";
+                }
+            } catch (error) {
+                console.error("Error fetching detailed explanation:", error);
+                detailsContent.textContent = "Failed to fetch details due to an error.";
+            } finally {
+                detailsLoadingIndicator.classList.add('hidden');
+            }
+        }
+        
+        function displayRelatedTips(currentTip) {
+            relatedTipsList.innerHTML = '';
+            const related = tipsData.filter(tip => tip.category === currentTip.category && tip.id !== currentTip.id);
+            const shuffled = related.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 5);
+            
+            if (selected.length === 0) {
+                 relatedTipsList.innerHTML = '<li>No related tips found.</li>';
+                 return;
+            }
+            
+            selected.forEach(tip => {
+                const li = document.createElement('li');
+                li.className = 'mb-2';
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = tip.title;
+                a.className = 'hover:text-[var(--akai-red)] transition-colors';
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    openModal(tip);
+                };
+                li.appendChild(a);
+                relatedTipsList.appendChild(li);
+            });
+        }
+
+        function openModal(tip) {
+            currentTip = tip;
+            mainTipView.classList.remove('hidden');
+            detailsView.classList.add('hidden');
+
+            modalTitle.innerHTML = `${getIconHtml(tip.category)}${tip.title} ${getDifficultyBadge(tip.difficulty)}`;
+            modalDescription.textContent = tip.description;
+            modalSource.textContent = `Source: ${tip.source}`;
+
+            copyTipButton.onclick = () => copyTipToClipboard(tip);
+            
+            aiSuggestionsSection.classList.remove('hidden');
+            if (tip.ai_suggestion) {
+                aiSuggestionsContent.innerHTML = tip.ai_suggestion.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+                getAiSuggestionsButton.classList.add('hidden');
+            } else {
+                aiSuggestionsContent.textContent = "Click the button for creative ideas related to this tip.";
+                getAiSuggestionsButton.classList.remove('hidden');
+            }
+            
+            displayRelatedTips(tip);
+
+            tipModal.classList.remove('hidden');
+        }
+
+        function showDetailsView() {
+            if (!currentTip) return;
+
+            mainTipView.classList.add('hidden');
+            detailsView.classList.remove('hidden');
+            detailsTitle.innerHTML = `${getIconHtml(currentTip.category)}${currentTip.title}`;
+
+            if (currentTip.detailed_explanation) {
+                detailsContent.innerHTML = currentTip.detailed_explanation.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br><br>');
+            } else {
+                getDetailedExplanation(currentTip);
+            }
+        }
+
+        function showMainTipView() {
+            detailsView.classList.add('hidden');
+            mainTipView.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            tipModal.classList.add('hidden');
+        }
+
+        function copyTipToClipboard(tip) {
+            const tipText = `Tip: ${tip.title}\nDifficulty: ${tip.difficulty}\nDescription: ${tip.description}\nSource: ${tip.source}`;
+            const textarea = document.createElement('textarea');
+            textarea.value = tipText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                const originalText = copyTipButton.innerHTML;
+                copyTipButton.innerHTML = 'Copied!';
+                setTimeout(() => { copyTipButton.innerHTML = originalText; }, 2000);
+            } catch (err) {
+                console.error('Failed to copy tip: ', err);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function generatePdf() {
+            const doc = new jsPDF();
+            let y = 15;
+            const margin = 10;
+            const pageHeight = doc.internal.pageSize.height;
+            const pageWidth = doc.internal.pageSize.width;
+
+            const addPageIfNeeded = (neededHeight) => {
+                if (y + neededHeight > pageHeight - margin) {
+                    doc.addPage();
+                    y = margin;
+                }
+            };
+
+            doc.setFontSize(22);
+            doc.text("MPC Complete Guide", pageWidth / 2, y, { align: 'center' });
+            y += 10;
+            doc.setFontSize(12);
+            doc.text("Comprehensive Tips & Tricks Guide", pageWidth / 2, y, { align: 'center' });
+            y += 15;
+
+            let currentCategory = '';
+
+            tipsData.forEach((tip) => {
+                if (tip.category !== currentCategory) {
+                    currentCategory = tip.category;
+                    addPageIfNeeded(20);
+                    doc.setFontSize(16);
+                    doc.setFont(undefined, 'bold');
+                    const categoryTitle = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1).replace(/_/g, ' & ');
+                    doc.text(categoryTitle, margin, y);
+                    y += 10;
+                }
+
+                const titleText = `${tip.title} (${tip.difficulty})`;
+                const descriptionText = tip.description;
+                const sourceText = `Source: ${tip.source}`;
+
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                const titleLines = doc.splitTextToSize(titleText, pageWidth - (2 * margin));
+                
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                const descriptionLines = doc.splitTextToSize(descriptionText, pageWidth - (2 * margin));
+
+                addPageIfNeeded(titleLines.length * 5 + descriptionLines.length * 5 + 10);
+                
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                doc.text(titleLines, margin, y);
+                y += titleLines.length * 5;
+
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'normal');
+                doc.text(descriptionLines, margin, y);
+                y += descriptionLines.length * 5;
+
+                doc.setFontSize(8);
+                doc.setTextColor(150);
+                doc.text(sourceText, margin, y);
+                doc.setTextColor(0);
+                y += 10;
+            });
+
+            doc.save('MPC_Complete_Guide_Tips.pdf');
+        }
+        
+        function displayGlossary(searchTerm = '') {
+            glossaryContent.innerHTML = '';
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            const filteredGlossary = glossaryData.filter(item => item.term.toLowerCase().includes(lowerCaseSearchTerm));
+            
+            if (filteredGlossary.length === 0) {
+                glossaryContent.innerHTML = '<p>No terms found.</p>';
+                return;
+            }
+            
+            filteredGlossary.forEach(item => {
+                const termElement = document.createElement('div');
+                termElement.className = 'glossary-item';
+                termElement.innerHTML = `
+                    <h4 class="text-2xl font-bold mb-2">${item.term}</h4>
+                    <p>${item.definition}</p>
+                `;
+                glossaryContent.appendChild(termElement);
+            });
+        }
+
+        // --- Event Listeners ---
+        difficultySortButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                difficultySortButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentDifficulty = button.dataset.difficulty;
+                displayTips(currentCategory, searchInput.value, currentDifficulty);
+            });
+        });
+
+        searchButton.addEventListener('click', () => {
+            displayTips(currentCategory, searchInput.value, currentDifficulty);
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchButton.click();
+            }
+        });
+
+        getAiSuggestionsButton.addEventListener('click', () => {
+            if (currentTip) getAISuggestions(currentTip);
+        });
+
+        seeMoreButton.addEventListener('click', showDetailsView);
+        backToTipButton.addEventListener('click', showMainTipView);
+        downloadPdfButton.addEventListener('click', generatePdf);
+        closeModalButton.addEventListener('click', closeModal);
+        tipModal.addEventListener('click', (e) => {
+            if (e.target === tipModal) closeModal();
+        });
+
+        glossaryButton.addEventListener('click', () => {
+            glossaryModal.classList.remove('hidden');
+            displayGlossary();
+        });
+        closeGlossaryModalButton.addEventListener('click', () => glossaryModal.classList.add('hidden'));
+        glossaryModal.addEventListener('click', (e) => {
+            if (e.target === glossaryModal) glossaryModal.classList.add('hidden');
+        });
+        glossarySearchInput.addEventListener('input', (e) => displayGlossary(e.target.value));
+
+        // Initial display
+        populateCategories();
+        displayTopTips();
+        displayTips(currentCategory, '', currentDifficulty);
+    </script>
+</body>
+</html>
