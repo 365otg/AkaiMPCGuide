@@ -535,6 +535,8 @@
         }
 
         async function getAISuggestions(tip) {
+            const apiKey = "AIzaSyAWJjvwTBBXBzqzS3mvoGL-wed87fINs2A"; 
+            
             aiSuggestionsContent.innerHTML = '';
             aiLoadingIndicator.classList.remove('hidden');
             getAiSuggestionsButton.disabled = true;
@@ -547,7 +549,6 @@
             **Why it matters:** [Explanation of its importance/benefit here]"`;
 
             try {
-                const apiKey = "";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                 const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
                 const response = await fetch(apiUrl, {
@@ -577,6 +578,8 @@
         }
 
         async function getDetailedExplanation(tip) {
+            const apiKey = "AIzaSyAWJjvwTBBXBzqzS3mvoGL-wed87fINs2A";
+            
             detailsContent.innerHTML = '';
             detailsLoadingIndicator.classList.remove('hidden');
             
@@ -585,7 +588,6 @@
             Tip Description: "${tip.description}"`;
 
             try {
-                const apiKey = "";
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
                 const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
                 const response = await fetch(apiUrl, {
