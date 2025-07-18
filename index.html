@@ -555,6 +555,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                 if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
                 const result = await response.json();
 
                 if (result.candidates && result.candidates[0]?.content?.parts[0]) {
@@ -566,7 +569,7 @@
                 }
             } catch (error) {
                 console.error("Error fetching AI suggestions:", error);
-                aiSuggestionsContent.textContent = "Failed to fetch suggestions due to an error.";
+                aiSuggestionsContent.textContent = "An error occurred while contacting the AI service. Please try again later.";
             } finally {
                 aiLoadingIndicator.classList.add('hidden');
                 getAiSuggestionsButton.disabled = false;
@@ -590,6 +593,9 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                 if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
                 const result = await response.json();
 
                 if (result.candidates && result.candidates[0]?.content?.parts[0]) {
@@ -601,7 +607,7 @@
                 }
             } catch (error) {
                 console.error("Error fetching detailed explanation:", error);
-                detailsContent.textContent = "Failed to fetch details due to an error.";
+                detailsContent.textContent = "An error occurred while contacting the AI service. Please try again later.";
             } finally {
                 detailsLoadingIndicator.classList.add('hidden');
             }
