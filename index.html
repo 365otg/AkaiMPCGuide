@@ -59,10 +59,10 @@
         .tip-category-button, .difficulty-sort-button, .header-button {
             background-color: var(--akai-muted);
             color: #ffffff;
-            padding: 14px 28px; /* Increased padding for bigger buttons */
+            padding: 10px 20px;
             border-radius: 12px;
             font-weight: 600;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.05em;
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -128,7 +128,7 @@
             background-color: var(--akai-accent-hover);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
-        .related-tips-container, .glossary-item, .suggested-tip-container, #details-glossary-container {
+        .related-tips-container, .glossary-item, .suggested-tip-container, #details-glossary-container, .fx-item, .ui-guide-section {
             margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--akai-muted);
@@ -187,7 +187,7 @@
         .footer-link:hover { color: var(--akai-accent); }
         h1, h2, h3, h4 { color: var(--akai-text-light); }
         p, li { color: #b0b0b0; }
-        #modal-title, #details-title, #glossary-modal h3 { color: var(--akai-text-light); }
+        #modal-title, #details-title, #glossary-modal h3, #fx-guide-modal h3, #ui-guide-modal h3 { color: var(--akai-text-light); }
         #modal-description, #modal-source, #details-content, #glossary-content p, #related-tips-list li { color: #b0b0b0; }
         .main-title {
             background: -webkit-linear-gradient(45deg, #FFD700, #FF4500);
@@ -212,14 +212,35 @@
         .drum-step.active {
             background-color: var(--akai-accent);
         }
+        .accordion-button {
+            background-color: var(--akai-muted);
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+        .accordion-button:hover {
+            background-color: var(--akai-muted-hover);
+        }
+        .accordion-content {
+            background-color: #252525;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center px-4">
 
-    <header class="w-full max-w-6xl text-center mb-12">
-        <div class="flex justify-between items-center mb-6">
+    <header class="w-full max-w-7xl text-center mb-12">
+        <div class="flex justify-around items-center mb-6 gap-4">
             <button id="mpc-sauce-button" class="header-button"><i class="fa-solid fa-pepper-hot mr-2"></i>MPC Sauce</button>
-            <h1 class="text-6xl font-bold main-title mb-6">The MPC Guide: Ultimate Edition</h1>
+            <button id="fx-guide-button" class="header-button"><i class="fa-solid fa-sliders mr-2"></i>FX Guide</button>
+            <h1 class="text-5xl lg:text-6xl font-bold main-title">The MPC Guide: Ultimate Edition</h1>
+            <button id="ui-guide-button" class="header-button"><i class="fa-solid fa-display mr-2"></i>UI Guide</button>
             <button id="glossary-button" class="header-button"><i class="fas fa-book mr-2"></i>Glossary</button>
         </div>
         <p class="text-2xl text-gray-300">Unlock the full potential of your AKAI MPC!</p>
@@ -234,8 +255,8 @@
         <!-- Featured Techniques Section -->
         <section class="mb-16 p-6 featured-section rounded-lg">
              <div id="top-tips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Featured tips will be dynamically loaded here -->
-            </div>
+                 <!-- Featured tips will be dynamically loaded here -->
+             </div>
         </section>
 
         <!-- Filters -->
@@ -342,6 +363,27 @@
             </div>
         </div>
     </div>
+
+    <!-- FX Guide Modal -->
+    <div id="fx-guide-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-3xl p-8 relative overflow-y-auto max-h-[90vh]">
+            <button id="close-fx-guide-modal" class="close-button absolute top-4 right-4 z-10">&times;</button>
+            <h3 class="text-4xl font-semibold mb-6"><i class="fa-solid fa-sliders mr-3"></i>FX Guide</h3>
+            <input type="search" id="fx-search-input" placeholder="Search effects..." class="search-input mb-6 w-full">
+            <div id="fx-guide-content" class="text-lg leading-relaxed"></div>
+        </div>
+    </div>
+
+    <!-- UI Guide Modal -->
+    <div id="ui-guide-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
+        <div class="modal-content w-full max-w-4xl p-8 relative overflow-y-auto max-h-[90vh]">
+            <button id="close-ui-guide-modal" class="close-button absolute top-4 right-4 z-10">&times;</button>
+            <h3 class="text-4xl font-semibold mb-6"><i class="fa-solid fa-display mr-3"></i>UI Guide: Screen & Menu Explorer</h3>
+            <div id="ui-guide-content" class="space-y-4">
+                <!-- UI Guide content will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
     
     <footer class="w-full max-w-6xl text-center text-gray-500">
         <p class="mb-4">Built by <a href="https://365otg.github.io/365CP/" target="_blank" class="font-bold footer-link">Charles A Paris</a></p>
@@ -427,12 +469,14 @@
             
             // --- Sample Edit & Chop ---
             { id: 401, category: "sample_edit_chop", title: "Time Stretching with Warp", description: "In Sample Edit, use the Warp function to change a sample's length without altering its pitch. This is essential for matching loops to your project's tempo.", source: "MPC Bible p.468", difficulty: "Intermediate", context: "Warping allows you to make a loop fit any BPM. The MPC offers several warp algorithms; 'Pro Ten' is generally the best for quality in standalone, while 'Elastique Pro' is superior in the MPC Software. Use it to sync loops or for creative sound design by extreme stretching." },
-            { id: 402, category: "sample_edit_chop", title: "Create Stems with AI", description: "In Sample Edit, use the 'Create Stems' function to separate a sample into vocals, bass, drums, and other musical elements using AI. A powerful tool for remixing and sampling.", source: "Manual p.186", difficulty: "Hard", context: "This groundbreaking feature lets you isolate parts of a finished song. Want just the vocals from a track? Or the drum break without the bassline? 'Create Stems' analyzes the audio and generates separate .wav files for each element, opening up a new world of sampling possibilities." },
+            { id: 402, category: "sample_edit_chop", title: "Create Stems with AI", description: "In Sample Edit, use the 'Create Stems' function to separate a sample into vocals, bass, drums, and other musical elements using AI. A powerful tool for remixing and sampling.", source: "Manual p.186", difficulty: "Hard", topTip: true, context: "This groundbreaking feature lets you isolate parts of a finished song. Want just the vocals from a track? Or the drum break without the bassline? 'Create Stems' analyzes the audio and generates separate .wav files for each element, opening up a new world of sampling possibilities." },
             { id: 403, category: "sample_edit_chop", title: "Discard, Extract, and Process Slices", description: "In Sample Edit, use the Process menu to apply effects like Normalize, Reverse, or Pitch Shift to your sample. You can also Discard unwanted parts or Extract a selection as a new sample.", source: "MPC Bible p.211", difficulty: "Intermediate", context: "These are fundamental, destructive editing tools. 'Discard' permanently removes audio outside your start/end points. 'Extract' creates a new sample from the audio within your start/end points. 'Process' allows you to apply permanent changes like gain adjustments or creative effects." },
             { id: 404, category: "sample_edit_chop", title: "Using Chop Mode", description: "In Sample Edit, use Chop Mode to slice a sample into regions based on transients, BPM, or a set number of regions. This is the foundation of classic MPC workflows.", source: "MPC Bible p.396", difficulty: "Easy", suggestedTipId: 301, context: "Chopping is the art of slicing a sample (often a drum break or melodic loop) into smaller pieces to be replayed and rearranged on the pads. The MPC offers several methods: 'Regions' for equal divisions, 'BPM' for tempo-based slicing, and 'Threshold' for automatically detecting transients like drum hits." },
             { id: 405, category: "sample_edit_chop", title: "Zero Snap for Clean Loops", description: "In Sample Edit settings, enable 'Zero Snap' to force start and end points to a zero-crossing in the waveform. This prevents clicks and pops in your loops.", source: "MPC Bible p.209", difficulty: "Intermediate", context: "A zero-crossing is where the audio waveform has zero amplitude. Starting or ending an audio file at a point with amplitude can cause an audible click. 'Zero Snap' intelligently moves your edit points to the nearest zero-crossing, ensuring clean, pop-free loops and chops." },
             { id: 406, category: "sample_edit_chop", title: "Converting Slices to a New Program", description: "After chopping a sample, press Shift + Convert to instantly create a new Drum Program with each slice assigned to a different pad.", source: "MPC Bible p.405", difficulty: "Intermediate", context: "This is the final step in the chopping workflow. The 'Convert' menu offers options like creating a new program with new, cropped samples (destructive) or a program that references the original sample (non-destructive), as well as creating a 'Patched Phrase' for tempo-synced loops." },
             { id: 407, category: "sample_edit_chop", title: "Patched Phrase Creation", description: "After chopping a loop to individual hits, use Shift > Convert > Patched Phrase. This creates a tempo-flexible loop that automatically adapts to your project's BPM.", source: "MPC Bible p.474", difficulty: "Hard", context: "A Patched Phrase is an intelligent sample that contains your slice information. When you change your sequence tempo, the MPC automatically adjusts the timing between the slices, allowing the loop to play perfectly in time at any BPM without traditional time-stretching." },
+            { id: 408, category: "sample_edit_chop", title: "Manual Chopping", description: "For ultimate control, use Manual chop mode. Play the sample and tap the 'Add Slice' button or a pad in real-time to insert slice markers exactly where you want them.", source: "MPC Bible p.400", difficulty: "Intermediate", context: "While automatic chopping is fast, manual chopping gives you the artistic freedom to place slices based on feel rather than just transients. This is key for getting the perfect groove from a sample." },
+            { id: 409, category: "sample_edit_chop", title: "Auditioning Slices", description: "In Chop mode, you can play back your slices by hitting the corresponding pads. Use the 'Slice' button to toggle between playing the entire sample or just the selected slice.", source: "Manual p.190", difficulty: "Easy", context: "Before committing to your chops, it's crucial to audition them. This allows you to check for clicks, adjust start/end points, and ensure each slice captures the sound you intended." },
             
             // --- Sequencing & Grid ---
             { id: 501, category: "sequencing_grid", title: "Humanize Your Quantized Patterns", description: "After recording a quantized sequence, go to Sequence Edit > Humanize. Apply subtle randomization to timing and velocity to make your MIDI patterns feel more natural and less robotic.", source: "MPC Bible p.450", difficulty: "Intermediate", topTip: true, context: "Quantizing can make beats sound stiff. The Humanize function adds subtle, random variations to note timing, duration, and velocity, mimicking the imperfections of a live performance and adding groove and feel back into a rigid pattern." },
@@ -441,6 +485,8 @@
             { id: 504, category: "sequencing_grid", title: "Double the Length of a Sequence", description: "In Main Mode, tap the pencil icon next to the sequence name and select 'Double Length'. This will double the sequence length and duplicate all events, perfect for building out a pattern.", source: "MPC Bible p.116", difficulty: "Easy", context: "This is a quick way to turn a 2-bar loop into a 4-bar phrase, or a 4-bar phrase into an 8-bar section. It duplicates all MIDI and automation, giving you a longer canvas to add variations and turn simple loops into evolving musical parts." },
             { id: 505, category: "sequencing_grid", title: "Using the Step Sequencer", description: "Enter Step Sequencer mode to program patterns by tapping the pads, which represent steps in the sequence. This is a classic and intuitive way to build drum beats.", source: "Manual p.174", difficulty: "Easy", context: "The Step Sequencer provides a visual, grid-based method for programming patterns, similar to classic drum machines like the TR-808. Each pad represents a step (typically a 16th note), allowing you to easily tap in complex rhythms and see your entire pattern at a glance." },
             { id: 506, category: "sequencing_grid", title: "Splitting Events (Ratchets)", description: "In the Track row, use the pencil icon > Split Events to divide a single MIDI note into multiple smaller notes (ratchets), creating fast rolls and fills.", source: "MPC Bible p.128", difficulty: "Intermediate", context: "This feature is perfect for creating modern trap-style hi-hat rolls or fast snare fills. It takes a single note and divides it into a specified number of smaller, equal-length notes, automating a process that would be difficult to play by hand." },
+            { id: 507, category: "sequencing_grid", title: "Swing and Groove", description: "In the Timing Correct (TC) window, apply Swing to your 16th or 8th notes to shift the timing of every other note, creating a classic hip-hop or house groove.", source: "MPC Bible p.101", difficulty: "Intermediate", context: "Swing is the magic ingredient for groove. Instead of notes landing perfectly on the grid, swing delays the off-beat notes slightly, creating a shuffle feel. The MPC offers various swing templates, including those from classic MPC models." },
+            { id: 508, category: "sequencing_grid", title: "Note Repeat / Latching", description: "Hold Note Repeat and a pad to play notes at a fixed rate (e.g., 1/16). Press Shift + Note Repeat to 'latch' it, keeping it active after you release the button.", source: "Manual p.74", difficulty: "Easy", context: "Note Repeat is essential for programming hi-hats, trap-style rolls, and synth arpeggios. Latching it frees up your hands to use the Q-Links to modulate parameters like filter cutoff or pitch while the notes are playing." },
             
             // --- Programs & Keygroups ---
             { id: 601, category: "programs_keygroups", title: "Layer Samples with Velocity Switching", description: "In a Drum Program, assign multiple samples to the same pad on different layers. Use the Velocity Start/End ranges to trigger different samples depending on how hard you hit the pad.", source: "MPC Bible p.429", difficulty: "Hard", context: "This is a powerful technique for creating expressive, dynamic instruments. For example, you can assign a soft, medium, and hard snare sample to a single pad, and the MPC will play the appropriate sample based on how hard you play, mimicking the response of a real drum." },
@@ -448,7 +494,51 @@
             { id: 603, category: "programs_keygroups", title: "Use the Mod Matrix for Complex Sounds", description: "In a Keygroup or Plugin program, use the Mod Matrix to route modulation sources (like LFOs or envelopes) to destinations (like pitch or filter cutoff) for evolving, complex sound design.", source: "Manual p.238", difficulty: "Hard", context: "The Modulation Matrix is the heart of advanced sound design. It allows you to create complex relationships between different parameters. For example, you can make an LFO control the filter cutoff while velocity controls the LFO's speed, creating dynamic, evolving textures." },
             { id: 604, category: "programs_keygroups", title: "Shaping Sounds with Envelopes", description: "In Track Edit, use the Amp and Filter envelopes to shape your sounds. Adjust the Attack, Decay, Sustain, and Release (ADSR) to control how a sound's volume and timbre evolve over time.", source: "MPC Bible p.152", difficulty: "Intermediate", context: "Envelopes are fundamental to sound design. The Amp Envelope controls a sound's volume over time (e.g., making a sound fade in slowly or end abruptly). The Filter Envelope controls the filter's cutoff over time, allowing you to create filter sweeps and other dynamic timbral changes." },
             { id: 605, category: "programs_keygroups", title: "Creating a Keygroup from a Sample", description: "In Track Edit, select a sample on a pad and tap the keyboard+ icon. This instantly creates a new Keygroup track, pitching the sample across the pads for melodic playing.", source: "MPC Bible p.582", difficulty: "Intermediate", context: "This is the quickest way to turn any one-shot sample into a playable instrument. It takes a single sample, creates a new Keygroup program, and automatically maps the sample across the pads or a keyboard, allowing you to instantly play melodies and chords with it." },
-            { id: 606, category: "programs_keygroups", title: "Random Layer Playback (Round Robin)", description: "Assign multiple, similar samples to different layers of a single pad. In Program Edit > Global, set Layer Play to 'Random' or 'Cycle' to trigger a different sample each time, creating natural variation.", source: "MPC Bible p.158", difficulty: "Hard", context: "This technique, often called 'round robin,' is essential for realism. By assigning slightly different recordings of the same sound (e.g., three different hi-hat hits) to a pad and setting Layer Play to 'Cycle' or 'Random,' you can avoid the robotic 'machine gun' effect and create more natural-sounding patterns." }
+            { id: 606, category: "programs_keygroups", title: "Random Layer Playback (Round Robin)", description: "Assign multiple, similar samples to different layers of a single pad. In Program Edit > Global, set Layer Play to 'Random' or 'Cycle' to trigger a different sample each time, creating natural variation.", source: "MPC Bible p.158", difficulty: "Hard", context: "This technique, often called 'round robin,' is essential for realism. By assigning slightly different recordings of the same sound (e.g., three different hi-hat hits) to a pad and setting Layer Play to 'Cycle' or 'Random,' you can avoid the robotic 'machine gun' effect and create more natural-sounding patterns." },
+            { id: 607, category: "programs_keygroups", title: "Vintage Emulation", description: "In Program Edit, go to the LFO/Modulation tab and enable 'Vintage Mode'. This emulates the sound characteristics of older samplers like the MPC3000 or SP1200.", source: "Manual p.239", difficulty: "Intermediate", context: "Vintage Mode adds subtle non-linearities, filtering, and aliasing to your samples, giving them the classic grit and warmth associated with iconic vintage samplers. It's a quick way to add character to your sounds." },
+            
+            // --- Audio Tracks ---
+            { id: 701, category: "audio_tracks", title: "Recording Audio Tracks", description: "Create an Audio Track to record linear audio like vocals, guitar, or a hardware synth performance directly into your sequence.", source: "Manual p.145", difficulty: "Easy", context: "Unlike samples triggered by pads, Audio Tracks are continuous recordings that play along the timeline. This is the standard way to record longer performances that don't need to be chopped or triggered, such as a full vocal take or a guitar solo." },
+            { id: 702, category: "audio_tracks", title: "Audio Track Editing", description: "In the AUDIO EDIT tab, you can perform basic edits like trimming, splitting, and moving audio clips on the timeline.", source: "Manual p.148", difficulty: "Intermediate", context: "After recording, you can fine-tune your audio tracks. Use the marquee tool to select a region, then use the edit tools to split the clip, mute a section, or move it to a different position in the timeline to perfect your arrangement." },
+            { id: 703, category: "audio_tracks", title: "Warping Audio Tracks", description: "Just like samples, entire audio tracks can be warped to match your project's tempo. Double-tap the audio clip to enter the warp editor.", source: "MPC Bible p.762", difficulty: "Intermediate", context: "If you record a vocal performance and later decide to speed up your track, you can warp the vocal track to fit the new tempo without re-recording. This provides incredible flexibility in your production process." },
+            { id: 704, category: "audio_tracks", title: "Punch In / Punch Out", description: "To fix a small mistake in a recording, use punch-in/out. Set a range in the timeline, and the MPC will only record within that range, leaving the rest of the take intact.", source: "Manual p.146", difficulty: "Intermediate", context: "This is a professional recording technique that saves you from having to re-record an entire performance. If you messed up one word in a vocal line, you can set a punch range around that word and re-record just that part seamlessly." },
+            
+            // --- Mixing & Effects ---
+            { id: 801, category: "mixing_effects", title: "Using Return Tracks for Effects", description: "Set up effects like reverb and delay on Return tracks instead of as inserts. This allows you to send multiple tracks to the same effect, saving CPU and creating a cohesive mix.", source: "MPC Bible p.344", difficulty: "Intermediate", topTip: true, context: "Instead of putting a separate reverb on your snare, hi-hats, and synth, create one Return track with a reverb plugin. Then, from each track's channel strip, use the 'Sends' to dial in how much of that track's signal you want to send to the reverb. This creates a more natural sound, as if all the instruments are in the same physical space." },
+            { id: 802, category: "mixing_effects", title: "Sidechain Compression (Mother Ducker)", description: "Use the Mother Ducker effect on a bass or pad track and set its key input to your kick drum track. This will automatically lower the volume of the bass/pad whenever the kick hits, creating space in the mix.", source: "Manual p.267", difficulty: "Intermediate", context: "This is the classic technique for making a kick drum punch through the mix. The 'ducking' effect creates a rhythmic pumping that is a staple of electronic music. The Mother Ducker is a dedicated plugin that makes setting this up incredibly easy." },
+            { id: 803, category: "mixing_effects", title: "Using Submixes (Groups)", description: "Route the output of multiple tracks (e.g., all your drum tracks) to a Submix track. This allows you to control the overall volume and apply effects to the entire group with a single fader.", source: "Manual p.255", difficulty: "Intermediate", context: "Submixes are essential for organized mixing. By grouping all your drums into one submix, you can apply 'bus compression' to glue them together, EQ the entire kit, or adjust the overall drum level without touching the individual track faders." },
+            { id: 804, category: "mixing_effects", title: "Pre-Fader vs. Post-Fader Sends", description: "A 'Post-Fader' send (the default) sends a signal to a return track that is affected by the track's volume fader. A 'Pre-Fader' send is independent of the fader.", source: "MPC Bible p.348", difficulty: "Hard", context: "Use Post-Fader for effects like reverb and delay, so when you turn a track down, its reverb also gets quieter. Use Pre-Fader for creating separate headphone mixes, where you might want to hear a click track that isn't in the main mix." },
+            
+            // --- Automation & Q-Links ---
+            { id: 901, category: "automation_qlinks", title: "Recording Q-Link Automation", description: "With the 'Write' automation button enabled (red), any movement of a Q-Link knob will be recorded into your sequence in real-time.", source: "Manual p.247", difficulty: "Easy", context: "This is the most intuitive way to add movement to your tracks. While the sequence plays, you can record a filter sweep, a volume fade, or a panning motion simply by turning a knob. The MPC captures your performance as automation data." },
+            { id: 902, category: "automation_qlinks", title: "Editing Automation in the Grid", description: "In Grid Edit mode, switch the view from 'Velocity' to the parameter you automated (e.g., 'Filter Cutoff'). You can then edit the automation data with the pencil and line tools.", source: "MPC Bible p.368", difficulty: "Intermediate", context: "If your real-time automation performance wasn't perfect, you can edit it with precision in the Grid. Use the tools to draw in smooth lines, sharp steps, or complex curves to create perfect, tempo-synced modulation." },
+            { id: 903, category: "automation_qlinks", title: "Q-Link Edit Mode", description: "Press Shift + Q-Link to enter Q-Link Edit mode. Here you can create custom layouts, assigning any parameter from any track, program, or effect to any of the 16 Q-Link knobs.", source: "Manual p.249", difficulty: "Hard", topTip: true, context: "This is a power-user feature for performance. You can create a 'macro' page where one knob controls the filter cutoff for three different tracks simultaneously, another controls the delay feedback, and another controls the drum bus compression. It turns your MPC into a custom-built performance instrument." },
+            
+            // --- Sound Design & Synthesis ---
+            { id: 1001, category: "sound_design_synthesis", title: "Exploring the Hype Synth", description: "The Hype synth is an incredibly versatile plugin with multiple synth engines (wavetable, FM, virtual analog). Explore its macros on the main page for quick sound shaping.", source: "MPC Plugin Manual", difficulty: "Intermediate", context: "Hype is a go-to synth for modern sounds. Don't just browse presets; learn what the four macro knobs do for each patch. They are designed to control the most important aspects of the sound, allowing you to quickly customize a preset to fit your track." },
+            { id: 1002, category: "sound_design_synthesis", title: "Creating a Sub Bass with Tubesynth", description: "Use the Tubesynth plugin to create a powerful sub bass. Start with a simple sine wave, then use the 'Drive' and 'Tone' controls to add subtle harmonics and warmth.", source: "MPC Plugin Manual", difficulty: "Easy", context: "A solid sub bass is the foundation of many genres. Tubesynth is perfect for this. A clean sine wave provides the fundamental low-end weight, while a small amount of drive can help it translate better on smaller speakers without becoming too distorted." },
+            { id: 1003, category: "sound_design_synthesis", title: "Using LFOs for Movement", description: "In any synth plugin or keygroup program, use a Low-Frequency Oscillator (LFO) to modulate parameters. A classic use is assigning a slow sine wave LFO to pitch to create a gentle vibrato.", source: "MPC Bible p.155", difficulty: "Intermediate", context: "LFOs breathe life into static sounds. Assign an LFO to filter cutoff to create a 'wobble' effect, or to pan position for automatic stereo movement. Syncing the LFO rate to your project's tempo can create rhythmic, pulsing effects." },
+            
+            // --- Performance Features ---
+            { id: 1101, category: "performance_features", title: "Pad Perform: Scales & Chords", description: "In Pad Perform mode, you can lock the 16 pads to a specific musical scale or have each pad play a full chord. This makes it easy to write melodic parts even with no music theory knowledge.", source: "Manual p.77", difficulty: "Easy", context: "Pad Perform is a powerful creative tool. In 'Chords' mode, you can select a key and a chord type (e.g., Minor 7th), and instantly have access to harmonically rich progressions. It's an amazing way to kickstart a song." },
+            { id: 1102, category: "performance_features", title: "XYFX Performance Effects", description: "Use the XYFX screen for real-time, touch-controlled effects. You can control two parameters at once by moving your finger on the X/Y grid. These can be recorded as automation.", source: "Manual p.278", difficulty: "Intermediate", topTip: true, context: "The XYFX is a performance powerhouse. It's perfect for creating dynamic filter sweeps, tape stop effects, beat repeats, and gater effects on the fly. You can apply it to a single track, a submix, or the entire master output for dramatic breakdowns and transitions." },
+            
+            // --- Integration & Sync ---
+            { id: 1201, category: "integration_sync", title: "Syncing with Ableton Link", description: "Connect your MPC to the same Wi-Fi network as a computer running Ableton Live (or other Link-enabled app). Enable Ableton Link in the MPC's Sync menu to wirelessly sync their timelines.", source: "Manual p.331", difficulty: "Easy", context: "Ableton Link is a technology that synchronizes the beat, phase, and tempo of multiple applications over a shared network. It's the easiest way to jam with friends using different software or to integrate your MPC with a laptop-based setup." },
+            { id: 1202, category: "integration_sync", title: "Using the MPC as a MIDI Interface", description: "In Controller Mode, the MPC's MIDI ports can be used as a standard MIDI interface for your computer, allowing you to control hardware synths from your DAW.", source: "Manual p.54", difficulty: "Intermediate", context: "This saves you from needing a separate MIDI interface. You can have a MIDI track in Ableton Live sending MIDI data out of your MPC's physical MIDI OUT port to an external synthesizer, seamlessly integrating your hardware with your software." },
+            { id: 1203, category: "integration_sync", title: "Serato Studio Integration", description: "Sync your MPC with Serato DJ Pro. Your MPC can act as a powerful controller for Serato, allowing you to trigger cues, loops, and samples in perfect time with your DJ set.", source: "AkaiPro Website", difficulty: "Intermediate", context: "This blurs the line between DJing and live production. You can have your MPC's sequencer playing in sync with the tracks you're DJing in Serato, allowing you to add live drums, samples, and melodies over your set." },
+
+            // --- File Management & Export ---
+            { id: 1301, category: "file_management_export", title: "Exporting Stems", description: "To send your track to a mixing engineer (or to mix in a DAW), use the 'Export > Stems' function. This will save each track in your project as a separate, full-length audio file.", source: "Manual p.358", difficulty: "Intermediate", context: "Exporting stems is a critical step for collaboration and final mixing. The MPC gives you options to export tracks as separate audio files, with or without effects, ensuring a smooth transition to another mixing environment." },
+            { id: 1302, category: "file_management_export", title: "Creating Custom Expansions", description: "Organize your favorite kits and instruments into a custom Expansion pack. In the MPC Software, you can use the Expansion Builder to create an .xpn file that can be easily installed on any MPC.", source: "MPC Software Manual", difficulty: "Hard", context: "Expansions are the official format for MPC sound packs. By creating your own, you can build a personalized library of your most-used sounds that is perfectly organized and easy to load in the Browser, just like a commercial pack." },
+
+            // --- Advanced Workflows ---
+            { id: 1401, category: "advanced_workflows", title: "Creative Resampling", description: "Resample a melodic loop, reverse it, apply reverb and delay, then resample it again. Chop this new, atmospheric sample to create unique textures and pads.", source: "MPC User Experience", difficulty: "Hard", topTip: true, context: "This is where the MPC's workflow truly shines. Instead of just using stock sounds, you can create entirely new sonic material by layering processes. Each resampling pass adds a new layer of character, transforming a simple sound into something complex and unique to you." },
+            { id: 1402, category: "advanced_workflows", title: "Building a Performance Set", description: "Use Next Sequence mode combined with custom Q-Link maps and XYFX setups to build a full live performance set. Practice transitioning between sequences and manipulating effects smoothly.", source: "MPC User Experience", difficulty: "Hard", context: "Taking the MPC on stage requires preparation. Design your set so that each pad in Next Sequence mode triggers a different song section. Create Q-Link pages that give you hands-on control over the most important elements for each song. This turns your project from a studio session into a playable live instrument." },
+
+            // --- Controller Mode & Software ---
+            { id: 1501, category: "controller_mode_software", title: "Accessing VST/AU Plugins", description: "In Controller Mode, the MPC 2 Software can host third-party VST (Windows/Mac) and AU (Mac) plugins. This gives you access to a massive world of instruments and effects.", source: "MPC Software Manual", difficulty: "Intermediate", context: "While the standalone MPC has powerful built-in plugins, the MPC 2 software opens the door to industry-standard plugins like Serum, Kontakt, and FabFilter. You can use these plugins in your project and then bounce the tracks to audio to use them back in standalone mode." },
+            { id: 1502, category: "controller_mode_software", title: "Bouncing from Software to Standalone", description: "After using CPU-heavy VSTs in the software, bounce your tracks to audio (File > Export > Stems). Save the project to your standalone drive, and you can then open it on your MPC hardware with the VST sounds perfectly printed as audio tracks.", source: "MPC User Experience", difficulty: "Intermediate", context: "This 'hybrid' workflow gives you the best of both worlds: the unlimited power of your computer's VST library and the hands-on, computer-free experience of the standalone hardware. It's a key technique for professional results." }
         ];
         
         const glossaryData = [
@@ -457,18 +547,28 @@
             { term: "Arpeggiator", definition: "A device or function that automatically creates arpeggios (broken chords) from held notes. The MPC's arpeggiator can create complex melodic and rhythmic patterns." },
             { term: "Automation", definition: "The process of recording the movement of knobs, faders, and other parameters over time, allowing for dynamic changes in a mix or sound." },
             { term: "BPM", definition: "Beats Per Minute. The unit of measurement for the tempo of a piece of music." },
-            { term: "Clipping", definition: "A form of distortion that occurs when an audio signal's amplitude exceeds the maximum level that a system can handle." },
+            { term: "Bus", definition: "An audio pathway that combines multiple audio signals together. See also: Submix." },
+            { term: "Clipping", definition: "A form of distortion that occurs when an audio signal's amplitude exceeds the maximum level that a system can handle. Visible as the meter turning red." },
             { term: "Compressor", definition: "An audio effect that reduces the dynamic range of a signal, making quiet parts louder and loud parts quieter for a more controlled and punchy sound." },
             { term: "CV/Gate", definition: "Control Voltage and Gate. An analog method for synthesizers to communicate. CV typically controls pitch, while Gate signals control when a note starts and stops." },
             { term: "DAW", definition: "Digital Audio Workstation. A software application used for recording, editing, and producing audio files (e.g., Ableton Live, FL Studio, Logic Pro)." },
             { term: "Envelope", definition: "A shape that changes a sound's characteristics over time. Most commonly used for volume (Amp Envelope) and filter cutoff (Filter Envelope)." },
+            { term: "Explode", definition: "An MPC function that separates each pad from a single drum track onto its own new track for individual mixing." },
             { term: "Filter", definition: "An effect that removes or boosts certain frequencies from a sound. Common types are Low-Pass (removes highs), High-Pass (removes lows), and Band-Pass (removes highs and lows)." },
             { term: "Keygroup Program", definition: "An MPC program type where a sample is pitched across the pads or a keyboard, allowing you to play it melodically." },
             { term: "LFO", definition: "Low-Frequency Oscillator. An oscillator that moves very slowly, used to modulate parameters like pitch (for vibrato), volume (for tremolo), or filter cutoff to create movement in a sound." },
             { term: "MIDI", definition: "Musical Instrument Digital Interface. A protocol that allows electronic instruments, computers, and other devices to communicate with each other." },
+            { term: "Mute Group", definition: "A group of pads where triggering one pad will instantly silence any others in the same group. Essential for open/closed hi-hats." },
+            { term: "Non-Destructive", definition: "An editing process that doesn't permanently alter the original audio file. The MPC's non-destructive chopping references the original sample, saving space." },
+            { term: "Polyphony", definition: "The maximum number of notes or voices that can be played simultaneously by an instrument or device." },
             { term: "Quantize", definition: "The process of aligning MIDI notes to a specific rhythmic grid to correct timing imperfections. Also known as Time Correction (TC) on the MPC." },
+            { term: "Q-Link", definition: "The assignable rotary knobs on an MPC used for real-time parameter control and automation." },
+            { term: "Resampling", definition: "The process of recording the output of the MPC itself as a new sample. Used for sound design and freeing up CPU resources." },
+            { term: "Return Track", definition: "A type of auxiliary track that hosts an effect (like reverb). Signals are sent to it from other tracks, allowing multiple sounds to share one effect." },
             { term: "Sample Rate", definition: "The number of times per second that a sample of an analog audio signal is taken to convert it into a digital signal. A standard CD uses a sample rate of 44.1 kHz (44,100 times per second)." },
+            { term: "Stems", definition: "Individual, full-length audio files for each track in a project, used for mixing in a DAW or for collaboration." },
             { term: "Submix", definition: "A track that groups the audio output of several other tracks together. This allows you to process a group of sounds (like all your drums) with the same effects." },
+            { term: "Swing", definition: "A rhythmic feel that slightly delays off-beat notes, creating a groove. A key characteristic of many hip-hop and house music styles." },
             { term: "Velocity", definition: "A MIDI value that represents how hard a key or pad was struck (from 0 to 127). It typically controls the volume of a note, but can be mapped to other parameters." },
             { term: "Warp", definition: "An algorithm that allows you to change the tempo (speed) of an audio sample without changing its pitch. Also known as time-stretching." },
             { term: "Transient", definition: "The initial, high-energy peak at the beginning of a sound's waveform, like the crack of a snare drum." },
@@ -508,7 +608,135 @@
             { name: "Peter Piper", artist: "Run-DMC", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Cowbell': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
             { name: "It Takes Two", artist: "Rob Base & DJ E-Z Rock", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
             { name: "Push It", artist: "Salt-N-Pepa", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "In Da Club", artist: "50 Cent", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } }
+            { name: "In Da Club", artist: "50 Cent", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Can I Kick It?", artist: "A Tribe Called Quest", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Mass Appeal", artist: "Gang Starr", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Don't Believe the Hype", artist: "Public Enemy", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "The Choice Is Yours", artist: "Black Sheep", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Flava in Ya Ear", artist: "Craig Mack", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } }
+        ];
+
+        // ... (The rest of the data arrays will be defined below) ...
+
+        const fxData = [
+            // DYNAMICS
+            { name: "AIR Compressor", category: "Dynamics", description: "A standard compressor to control dynamic range. Use it to make sounds punchier and more consistent in volume." },
+            { name: "AIR Expander", category: "Dynamics", description: "The opposite of a compressor. It increases dynamic range, making quiet parts quieter. Good for reducing noise or creating gating effects." },
+            { name: "AIR Gate", category: "Dynamics", description: "A noise gate that silences audio below a certain threshold. Perfect for cleaning up background noise in recordings." },
+            { name: "AIR Limiter", category: "Dynamics", description: "A type of ultra-fast compressor that prevents a signal from ever exceeding a set ceiling. Use it on the master track to prevent clipping." },
+            { name: "AIR Maximizer", category: "Dynamics", description: "An advanced limiter designed to increase the overall loudness of a track without introducing distortion. Great for mastering." },
+            { name: "Mother Ducker", category: "Dynamics", description: "A dedicated sidechain compressor. It 'ducks' the volume of one track based on the input of another (e.g., make bass duck for the kick)." },
+            { name: "Vintage Compressor", category: "Dynamics", description: "A compressor modeled after classic hardware units, adding warmth and character along with dynamic control." },
+            // EQ
+            { name: "AIR Para EQ", category: "EQ", description: "A parametric equalizer with multiple bands to boost or cut specific frequencies with precision." },
+            { name: "AIR Kill EQ", category: "EQ", description: "An EQ designed for performance, with knobs to completely 'kill' the Low, Mid, or High frequencies, popular in DJing." },
+            // REVERB
+            { name: "AIR Reverb", category: "Reverb", description: "A standard algorithmic reverb to create a sense of space. Offers various room sizes and character settings." },
+            { name: "AIR Spring Reverb", category: "Reverb", description: "Emulates the sound of a vintage spring reverb unit found in guitar amps, known for its 'boingy' and metallic character." },
+            { name: "AIR Non-Linear Reverb", category: "Reverb", description: "Creates a reverb tail that doesn't decay naturally. Often used for gated reverb effects popular in 80s drum sounds." },
+            // DELAY
+            { name: "AIR Delay", category: "Delay", description: "A standard delay/echo effect. Can be synced to tempo for rhythmic echoes." },
+            { name: "AIR Multi-Tap Delay", category: "Delay", description: "A delay with multiple 'taps', allowing for complex, rhythmic, and bouncing echo patterns." },
+            { name: "AIR Diffuser Delay", category: "Delay", description: "A delay that smears the repeats, creating a washed-out, reverb-like echo." },
+            // MODULATION
+            { name: "AIR Chorus", category: "Modulation", description: "Creates a thicker, shimmering sound by duplicating the signal and modulating its pitch slightly." },
+            { name: "AIR Flanger", category: "Modulation", description: "Creates a sweeping, 'jet plane' sound by mixing the signal with a delayed, modulated copy of itself." },
+            { name: "AIR Phaser", category: "Modulation", description: "Creates a swirling, psychedelic effect by shifting the phase of the signal." },
+            { name: "AIR Tremolo", category: "Modulation", description: "Modulates the volume of the signal up and down, creating a rhythmic pulsing effect." },
+            { name: "AIR Pumper", category: "Modulation", description: "Creates a rhythmic pumping/gating effect, similar to sidechain compression, but with more control over the pumping shape." },
+            // DISTORTION & SATURATION
+            { name: "AIR Distortion", category: "Distortion", description: "A heavy distortion effect for aggressive sounds." },
+            { name: "AIR Fuzz-Wah", category: "Distortion", description: "Combines a fuzz distortion with a wah-wah filter effect." },
+            { name: "AIR Lo-Fi", category: "Distortion", description: "Degrades the audio quality by reducing bit depth and sample rate, emulating the sound of vintage samplers and digital gear." },
+            { name: "AIR Enhancer", category: "Distortion", description: "Adds harmonic excitement to the high and low frequencies to make a sound brighter and fuller." },
+            { name: "AIR Saturation Filter", category: "Distortion", description: "A filter that adds harmonic saturation as you drive the signal into it, for warm, analog-style grit." },
+            // FILTERS
+            { name: "AIR Filter Gate", category: "Filter", description: "A rhythmic gate that uses a filter to shape the sound, creating complex, evolving patterns." },
+            { name: "AIR Talkbox", category: "Filter", description: "Simulates the effect of a talkbox, imposing vocal-like vowel characteristics onto an instrument." },
+            // VOCAL
+            { name: "AIR Vocal Tuner", category: "Vocal", description: "An automatic pitch correction effect to tune vocals to a specific key." },
+            { name: "AIR Vocal Doubler", category: "Vocal", description: "Creates a doubling effect for vocals to make them sound wider and thicker." },
+            { name: "AIR Vocal Harmonizer", category: "Vocal", description: "Generates intelligent vocal harmonies based on the input vocal and a selected scale." },
+            // SPECIAL
+            { name: "AIR Granulator", category: "Special", description: "A creative effect that chops the incoming audio into tiny 'grains' and re-arranges them to create new textures, pads, and glitches." },
+            { name: "AIR Decimator", category: "Special", description: "A bit-crusher effect that provides more extreme audio degradation than the Lo-Fi effect." },
+            { name: "AIR Pumper", category: "Special", description: "Creates a rhythmic volume pumping effect, great for side-chain style sounds without complex routing." },
+            { name: "AIR Reverb Plate", category: "Reverb", description: "Emulates a classic plate reverb, known for its bright, dense, and smooth sound, great for vocals and snares." },
+            { name: "AIR Half Speed", category: "Special", description: "Instantly plays back your audio at half speed and an octave lower, a popular effect in trap and lofi production." },
+            { name: "AIR Stutter", category: "Special", description: "A creative stutter and buffer effect that can be used to create complex edits and fills." },
+            { name: "AIR Amp Sim", category: "Distortion", description: "Simulates a variety of guitar and bass amplifiers, providing tones from clean to heavily distorted." },
+            { name: "AIR Tube Drive", category: "Distortion", description: "Adds warm, tube-style saturation and overdrive." }
+        ];
+
+        const uiGuideData = [
+            {
+                title: "Main Screen",
+                content: "The Main Screen is the central hub of your project, providing an overview of all your tracks and sequences.",
+                elements: [
+                    { name: "Track List", description: "The main area on the left. Shows all tracks in the current sequence. Tap a track to select it for recording or editing." },
+                    { name: "Sequence Bar", description: "At the top. Shows the current sequence number and name. Tap the pencil icon to copy, delete, or change sequence parameters." },
+                    { name: "Timeline/Grid", description: "The large grid area. Shows the MIDI notes or audio clips for the selected track. You can navigate this by touch." },
+                    { name: "Transport Controls", description: "The play, record, stop, and overdub buttons. These control the sequencer's playback." },
+                    { name: "Metronome Icon", description: "Toggles the click track on/off. Tap and hold to access metronome settings (sound, count-in)." },
+                    { name: "TC (Timing Correct) Button", description: "Opens the quantization settings window. This is where you apply swing and set note divisions." },
+                    { name: "Automation Status", description: "The 'Read/Write' button. Sets whether the MPC reads existing automation or records new knob movements." }
+                ]
+            },
+            {
+                title: "Grid Edit",
+                content: "Grid Edit is where you perform detailed, visual editing of your MIDI note data.",
+                elements: [
+                    { name: "Note Grid", description: "The main piano roll-style display. Shows notes as blocks. You can move, resize, add, and delete notes here." },
+                    { name: "Velocity Lane", description: "The area at the bottom. Shows vertical bars representing the velocity (volume) of each note. You can redraw velocities here." },
+                    { name: "Tool Palette", description: "Contains the Pencil (draw notes), Eraser (delete notes), and Marquee (select multiple notes) tools." },
+                    { name: "Nudge", description: "The left/right arrows that shift selected notes forward or backward in time by tiny increments (ticks)." },
+                    { name: "Event Filter", description: "Allows you to view and edit different types of data, such as velocity, pitch bend, or automation for a specific Q-Link." }
+                ]
+            },
+            {
+                title: "Program Edit",
+                content: "Program Edit is the deep-dive editor for shaping your Drum and Keygroup programs.",
+                elements: [
+                    { name: "Global Tab", description: "Controls settings for the entire program, like polyphony and Layer Play mode (Round Robin)." },
+                    { name: "Samples Tab", description: "Assign samples to layers on each pad. This is where you build velocity-switched instruments." },
+                    { name: "Envelopes Tab", description: "Shape your sounds with Amp (volume) and Filter envelopes (ADSR)." },
+                    { name: "LFO/Modulation Tab", description: "Use LFOs to create movement and access the Vintage Mode emulations." },
+                    { name: "Mod Matrix Tab", description: "The advanced routing page where you can assign any modulation source (LFO, Velocity, etc.) to any destination (Pitch, Filter, etc.)." }
+                ]
+            },
+            {
+                title: "Sampler",
+                content: "The Sampler is where you record new audio into the MPC from external or internal sources.",
+                elements: [
+                    { name: "Input Source", description: "Selects what you want to record: external Inputs (1,2), Stereo, or internal Resample L+R." },
+                    { name: "Monitor Button", description: "Toggles input monitoring. Turn it on to hear your source without latency before and during recording." },
+                    { name: "Threshold Setting", description: "Sets a level the audio must exceed before recording automatically starts. Prevents recording silence." },
+                    { name: "Rec Arm Button", description: "Prepares the sampler for recording. It will turn red." },
+                    { name: "Record Button", description: "Starts the actual recording process (after being armed)." }
+                ]
+            },
+            {
+                title: "Sample Edit",
+                content: "Sample Edit is where you manipulate your recorded or loaded audio files.",
+                elements: [
+                    { name: "Waveform Display", description: "A visual representation of your audio sample. Use pinch-to-zoom to get a closer look." },
+                    { name: "Trim / Chop Tabs", description: "Switches between the two main editing modes. Trim is for editing the whole sample, Chop is for slicing it." },
+                    { name: "Start/End/Slice Points", description: "The markers used to define regions of the sample for editing or playback." },
+                    { name: "Process Button", description: "Opens a menu of destructive processes like Normalize, Reverse, Pitch Shift, Time Stretch, and Create Stems." },
+                    { name: "Convert Button", description: "Accessed with SHIFT. Converts your slices into a new Program, a Patched Phrase, or clips." }
+                ]
+            },
+            {
+                title: "Channel Mixer",
+                content: "The Channel Mixer provides a traditional mixing board view of all your tracks, returns, and submixes.",
+                elements: [
+                    { name: "Channel Strip", description: "A vertical column representing one track. Contains a volume fader, pan knob, mute/solo buttons, and insert effects slots." },
+                    { name: "Inserts", description: "The slots (usually 4) on each channel strip where you can load effects that process only that specific track." },
+                    { name: "Sends", description: "Knobs on each channel strip used to send a portion of the track's signal to a Return track for shared effects like reverb." },
+                    { name: "Pan Knob", description: "Controls the left/right stereo position of the track in the mix." },
+                    { name: "Fader", description: "The main volume control for the track." }
+                ]
+            }
         ];
 
         // DOM ELEMENT VARIABLES (Declared ONCE)
@@ -545,6 +773,15 @@
         const mpcSauceButton = document.getElementById('mpc-sauce-button');
         const mpcSauceModal = document.getElementById('mpc-sauce-modal');
         const closeMpcSauceModalButton = document.getElementById('close-mpc-sauce-modal');
+        const fxGuideButton = document.getElementById('fx-guide-button');
+        const fxGuideModal = document.getElementById('fx-guide-modal');
+        const closeFxGuideModalButton = document.getElementById('close-fx-guide-modal');
+        const fxSearchInput = document.getElementById('fx-search-input');
+        const fxGuideContent = document.getElementById('fx-guide-content');
+        const uiGuideButton = document.getElementById('ui-guide-button');
+        const uiGuideModal = document.getElementById('ui-guide-modal');
+        const closeUiGuideModalButton = document.getElementById('close-ui-guide-modal');
+        const uiGuideContent = document.getElementById('ui-guide-content');
         
         // STATE VARIABLES
         let currentCategory = 'all';
@@ -559,7 +796,7 @@
             sample_edit_chop: 'fa-solid fa-scissors',
             sequencing_grid: 'fa-solid fa-border-all',
             programs_keygroups: 'fa-solid fa-layer-group',
-            audio_tracks: 'fa-solid fa-waveform-lines',
+            audio_tracks: 'fa-solid fa-wave-square',
             mixing_effects: 'fa-solid fa-sliders',
             automation_qlinks: 'fa-solid fa-robot',
             sound_design_synthesis: 'fa-solid fa-atom',
@@ -601,7 +838,7 @@
                 const formattedName = category
                     .replace(/_/g, ' & ')
                     .replace(/\b\w/g, l => l.toUpperCase());
-                button.textContent = formattedName;
+                button.innerHTML = `${getIconHtml(category)} ${formattedName}`;
                 categoryFilterContainer.appendChild(button);
             });
 
@@ -669,10 +906,15 @@
             }
             topTips.forEach(tip => {
                  const tipElement = document.createElement('div');
-                tipElement.className = 'featured-tip p-4 rounded-lg cursor-pointer';
+                tipElement.className = 'card p-4 rounded-lg cursor-pointer flex flex-col';
                 tipElement.innerHTML = `
-                    <h4 class="text-lg font-semibold mb-2">${getIconHtml(tip.category)}${tip.title}</h4>
-                    <p class="text-sm text-gray-400">${tip.description}</p>
+                    <div class="flex-grow">
+                        <h4 class="text-lg font-semibold mb-2">${getIconHtml(tip.category)}${tip.title}</h4>
+                        <p class="text-sm text-gray-400">${tip.description}</p>
+                    </div>
+                    <div class="mt-auto pt-2 flex justify-end items-center">
+                        ${getDifficultyBadge(tip.difficulty)}
+                    </div>
                 `;
                 tipElement.addEventListener('click', () => openModal(tip));
                 topTipsContainer.appendChild(tipElement);
@@ -836,23 +1078,28 @@
             };
 
             doc.setFontSize(22);
-            doc.text("MPC Vault: The Ultimate Guide", pageWidth / 2, y, { align: 'center' });
-            y += 10;
-            doc.setFontSize(12);
-            doc.text("Comprehensive Tips & Tricks Guide", pageWidth / 2, y, { align: 'center' });
+            doc.text("The MPC Guide: Ultimate Edition", pageWidth / 2, y, { align: 'center' });
+            y += 8;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 255);
+            const link = "https://365otg.github.io/AkaiMPCGuide/";
+            doc.textWithLink("Interactive Web Version: Click Here", pageWidth / 2, y, { url: link, align: 'center' });
+            doc.setTextColor(0);
             y += 15;
 
-            let currentCategory = '';
+
+            let currentCategoryPdf = '';
             
-            const sortedTips = [...tipsData].sort((a, b) => a.category.localeCompare(b.category));
+            const sortedTips = [...tipsData].sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
 
             sortedTips.forEach((tip) => {
-                if (tip.category !== currentCategory) {
-                    currentCategory = tip.category;
+                if (tip.category !== currentCategoryPdf) {
+                    currentCategoryPdf = tip.category;
                     addPageIfNeeded(20);
                     doc.setFontSize(16);
                     doc.setFont(undefined, 'bold');
-                    const categoryTitle = currentCategory
+                    const categoryTitle = currentCategoryPdf
                         .replace(/_/g, ' & ')
                         .replace(/\b\w/g, l => l.toUpperCase());
                     doc.text(categoryTitle, margin, y);
@@ -890,7 +1137,7 @@
                 y += 10;
             });
 
-            doc.save('MPC_Vault_Complete_Guide.pdf');
+            doc.save('The_MPC_Guide_Ultimate_Edition.pdf');
         }
         
         function displayGlossary(searchTerm = '') {
@@ -914,6 +1161,68 @@
                     <p>${item.definition}</p>
                 `;
                 glossaryContent.appendChild(termElement);
+            });
+        }
+
+        function displayFxGuide(searchTerm = '') {
+            fxGuideContent.innerHTML = '';
+            const lowerCaseSearchTerm = searchTerm.toLowerCase().trim();
+            const filteredFx = fxData.filter(item => 
+                item.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+                item.category.toLowerCase().includes(lowerCaseSearchTerm) ||
+                item.description.toLowerCase().includes(lowerCaseSearchTerm)
+            );
+            
+            if (filteredFx.length === 0) {
+                fxGuideContent.innerHTML = '<p>No effects found.</p>';
+                return;
+            }
+            
+            let currentCategory = "";
+            filteredFx.sort((a,b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name)).forEach(item => {
+                if (item.category !== currentCategory) {
+                    currentCategory = item.category;
+                    const categoryHeader = document.createElement('h4');
+                    categoryHeader.className = "text-3xl font-bold mt-6 mb-2 border-b-2 border-akai-accent pb-2";
+                    categoryHeader.textContent = currentCategory;
+                    fxGuideContent.appendChild(categoryHeader);
+                }
+
+                const fxElement = document.createElement('div');
+                fxElement.className = 'fx-item';
+                fxElement.innerHTML = `
+                    <h5 class="text-2xl font-bold mb-2">${item.name}</h5>
+                    <p>${item.description}</p>
+                `;
+                fxGuideContent.appendChild(fxElement);
+            });
+        }
+
+        function populateUiGuide() {
+            uiGuideContent.innerHTML = '';
+            uiGuideData.forEach(section => {
+                const sectionContainer = document.createElement('div');
+                
+                const button = document.createElement('button');
+                button.className = 'accordion-button';
+                button.textContent = section.title;
+                
+                const content = document.createElement('div');
+                content.className = 'accordion-content hidden';
+                
+                let contentHtml = `<p class="mb-4 text-lg">${section.content}</p>`;
+                section.elements.forEach(el => {
+                    contentHtml += `<p class="mb-2"><strong>${el.name}:</strong> ${el.description}</p>`;
+                });
+                content.innerHTML = contentHtml;
+                
+                button.addEventListener('click', () => {
+                    content.classList.toggle('hidden');
+                });
+
+                sectionContainer.appendChild(button);
+                sectionContainer.appendChild(content);
+                uiGuideContent.appendChild(sectionContainer);
             });
         }
 
@@ -1004,13 +1313,30 @@
         });
         glossarySearchInput.addEventListener('input', (e) => displayGlossary(e.target.value));
 
-        mpcSauceButton.addEventListener('click', () => {
-            mpcSauceModal.classList.remove('hidden');
-        });
+        mpcSauceButton.addEventListener('click', () => mpcSauceModal.classList.remove('hidden'));
         closeMpcSauceModalButton.addEventListener('click', () => mpcSauceModal.classList.add('hidden'));
         mpcSauceModal.addEventListener('click', (e) => {
             if (e.target === mpcSauceModal) mpcSauceModal.classList.add('hidden');
         });
+
+        fxGuideButton.addEventListener('click', () => {
+            fxGuideModal.classList.remove('hidden');
+            displayFxGuide();
+        });
+        closeFxGuideModalButton.addEventListener('click', () => fxGuideModal.classList.add('hidden'));
+        fxGuideModal.addEventListener('click', (e) => {
+            if (e.target === fxGuideModal) fxGuideModal.classList.add('hidden');
+        });
+        fxSearchInput.addEventListener('input', (e) => displayFxGuide(e.target.value));
+
+        uiGuideButton.addEventListener('click', () => {
+            uiGuideModal.classList.remove('hidden');
+        });
+        closeUiGuideModalButton.addEventListener('click', () => uiGuideModal.classList.add('hidden'));
+        uiGuideModal.addEventListener('click', (e) => {
+            if (e.target === uiGuideModal) uiGuideModal.classList.add('hidden');
+        });
+
 
         moreInfoButton.addEventListener('click', showDetailsView);
         backToTipButton.addEventListener('click', showMainTipView);
@@ -1020,6 +1346,7 @@
         displayTopTips();
         displayTips(currentCategory, '', currentDifficulty);
         populateMpcSauce();
+        populateUiGuide();
     });
     </script>
 </body>
