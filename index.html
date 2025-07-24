@@ -7,7 +7,7 @@
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Master your AKAI MPC with this comprehensive guide. Explore over 370 essential tips, advanced techniques, workflow hacks, and AI-powered suggestions for sampling, effects, patterns, sequencing, mixing, and more. Your ultimate resource for the MPC Standalone OS.">
-    <meta name="keywords" content="AKAI MPC, MPC Live, MPC One, MPC X, MPC Key, MPC Standalone, MPC OS, MPC Guide, MPC Tutorial, MPC Tips, MPC Tricks, Sampling, Effects, Sequencing, Drum Machine, Beatmaking, Hip Hop Production, Lofi, Workflow, Automation, Q-Links, MIDI, CV, Ableton Link, Serato, Troubleshooting, The MPC Guide, Ultimate Guide">
+    <meta name="keywords" content="AKAI MPC, MPC Live, MPC One, MPC X, MPC Key, MPC Standalone, MPC OS, MPC Guide, MPC Tutorial, MPC Tips, MPC Tricks, Sampling, Effects, Sequencing, Drum Machine, Beatmaking, Hip Hop Production, Lofi, Workflow, Automation, Q-Links, MIDI, CV, Ableton Link, Serato, Troubleshooting, The MPC Guide, Ultimate Guide, Charles Paris">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -56,7 +56,7 @@
             transform: translateY(-7px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
         }
-        .tip-category-button, .difficulty-sort-button, .header-button {
+        .tip-category-button, .header-button {
             background-color: var(--akai-muted);
             color: #ffffff;
             padding: 10px 20px;
@@ -66,20 +66,14 @@
             transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
-        .tip-category-button:hover, .difficulty-sort-button:hover, .header-button:hover {
+        .tip-category-button:hover, .header-button:hover {
             background-color: var(--akai-muted-hover);
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
-        .tip-category-button.active, .difficulty-sort-button.active {
+        .tip-category-button.active {
             background-color: var(--akai-accent);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-        }
-        .tip-item {
-            background-color: #2A2A30;
-            border-radius: 10px;
-            padding: 20px;
-            border-left: 5px solid var(--akai-accent);
         }
         .modal {
             background-color: rgba(0, 0, 0, 0.85);
@@ -128,7 +122,7 @@
             background-color: var(--akai-accent-hover);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
         }
-        .related-tips-container, .glossary-item, .suggested-tip-container, #details-glossary-container, .fx-item, .ui-guide-section {
+        .related-tips-container, .glossary-item, .suggested-tip-container, #details-glossary-container, .fx-item, .ui-guide-section, .modal-donate-section {
             margin-top: 2rem;
             padding-top: 1.5rem;
             border-top: 1px solid var(--akai-muted);
@@ -166,20 +160,6 @@
         .copy-button:hover {
             background-color: var(--akai-muted-hover);
         }
-        .difficulty-badge {
-            display: inline-block;
-            padding: 0.25em 0.6em;
-            font-size: 0.75em;
-            font-weight: 700;
-            line-height: 1;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 0.375rem;
-        }
-        .difficulty-easy { color: #1f2937; background-color: #6ee7b7; }
-        .difficulty-intermediate { color: #1f2937; background-color: #fde047; }
-        .difficulty-hard { color: #f9fafb; background-color: #f87171; }
         .details-view { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         footer { border-top: 1px solid var(--akai-muted); padding-top: 2rem; margin-top: 4rem; }
@@ -239,21 +219,17 @@
         <div class="flex justify-around items-center mb-6 gap-4">
             <button id="mpc-sauce-button" class="header-button"><i class="fa-solid fa-pepper-hot mr-2"></i>MPC Sauce</button>
             <button id="fx-guide-button" class="header-button"><i class="fa-solid fa-sliders mr-2"></i>FX Guide</button>
-            <h1 class="text-5xl lg:text-6xl font-bold main-title">The MPC Guide: Ultimate Edition</h1>
             <button id="ui-guide-button" class="header-button"><i class="fa-solid fa-display mr-2"></i>UI Guide</button>
             <button id="glossary-button" class="header-button"><i class="fas fa-book mr-2"></i>Glossary</button>
         </div>
+        <h1 class="text-5xl lg:text-6xl font-bold main-title mb-4">The MPC Guide: Ultimate Edition</h1>
         <p class="text-2xl text-gray-300">Unlock the full potential of your AKAI MPC!</p>
     </header>
 
     <main class="w-full max-w-6xl">
-        <div class="flex flex-col sm:flex-row justify-center items-center mb-12 gap-4">
-            <input type="search" id="search-input" placeholder="Search over 370 tips..." class="search-input">
-            <button id="search-button" class="search-button">Search</button>
-        </div>
-
         <!-- Featured Techniques Section -->
         <section class="mb-16 p-6 featured-section rounded-lg">
+             <h2 class="text-3xl font-bold text-center mb-8">Featured Techniques</h2>
              <div id="top-tips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                  <!-- Featured tips will be dynamically loaded here -->
              </div>
@@ -267,23 +243,16 @@
             </div>
         </div>
         
-        <div id="difficulty-filter-container" class="flex flex-wrap justify-center gap-4 mb-16">
-            <button class="difficulty-sort-button active" data-difficulty="all">All Difficulties</button>
-            <button class="difficulty-sort-button" data-difficulty="Easy">Easy</button>
-            <button class="difficulty-sort-button" data-difficulty="Intermediate">Intermediate</button>
-            <button class="difficulty-sort-button" data-difficulty="Hard">Hard</button>
-        </div>
-
         <section id="tips-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <!-- Tips will be loaded here by JavaScript -->
         </section>
         
         <div class="flex justify-center mt-16">
-            <button id="download-pdf-button" class="search-button"><i class="fa-solid fa-file-pdf"></i> Download All Tips as PDF</button>
+            <button id="download-pdf-button" class="search-button"><i class="fa-solid fa-file-pdf"></i> Download The Full Guide as PDF</button>
         </div>
     </main>
 
-      <!-- Tip Modal -->
+     <!-- Tip Modal -->
     <div id="tip-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
         <div class="modal-content w-full max-w-2xl p-8 relative overflow-y-auto max-h-[90vh]">
             <button id="close-modal" class="close-button absolute top-4 right-4 z-10">&times;</button>
@@ -297,7 +266,7 @@
 
                 <div class="flex flex-wrap gap-2 mt-4">
                     <button id="copy-tip-button" class="copy-button"><i class="fa-solid fa-copy"></i> Copy Tip</button>
-                    <button id="more-info-button" class="more-info-button"><i class="fa-solid fa-circle-info"></i> More Info</button>
+                    <button id="more-info-button" class="more-info-button"><i class="fa-solid fa-circle-info"></i> How-To & Details</button>
                 </div>
                 
                 <div id="suggested-tip-container" class="suggested-tip-container hidden">
@@ -305,6 +274,9 @@
                      <div id="suggested-tip-box" class="suggested-tip-box">
                          <!-- Suggested tip content goes here -->
                      </div>
+                </div>
+                 <div class="modal-donate-section text-center">
+                    <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Support The Guide</a>
                 </div>
             </div>
 
@@ -315,8 +287,8 @@
                  <div id="details-content" class="text-lg leading-relaxed prose prose-invert max-w-none"></div>
                  
                  <div id="details-related-container" class="related-tips-container">
-                     <h4 class="text-2xl font-semibold mb-4">Related Tips</h4>
-                     <ul id="details-related-list" class="list-disc list-inside"></ul>
+                      <h4 class="text-2xl font-semibold mb-4">Related Tips</h4>
+                      <ul id="details-related-list" class="list-disc list-inside"></ul>
                  </div>
 
                  <div id="details-glossary-container">
@@ -336,6 +308,9 @@
             <h3 class="text-4xl font-semibold mb-6">Glossary</h3>
             <input type="search" id="glossary-search-input" placeholder="Search terms..." class="search-input mb-6 w-full">
             <div id="glossary-content" class="text-lg leading-relaxed"></div>
+             <div class="modal-donate-section text-center">
+                <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Support The Guide</a>
+            </div>
         </div>
     </div>
 
@@ -360,6 +335,9 @@
                         <!-- Drum patterns will be dynamically inserted here -->
                     </div>
                 </div>
+                 <div class="modal-donate-section text-center">
+                    <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Support The Guide</a>
+                </div>
             </div>
         </div>
     </div>
@@ -371,6 +349,9 @@
             <h3 class="text-4xl font-semibold mb-6"><i class="fa-solid fa-sliders mr-3"></i>FX Guide</h3>
             <input type="search" id="fx-search-input" placeholder="Search effects..." class="search-input mb-6 w-full">
             <div id="fx-guide-content" class="text-lg leading-relaxed"></div>
+             <div class="modal-donate-section text-center">
+                <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Support The Guide</a>
+            </div>
         </div>
     </div>
 
@@ -382,6 +363,9 @@
             <div id="ui-guide-content" class="space-y-4">
                 <!-- UI Guide content will be dynamically inserted here -->
             </div>
+             <div class="modal-donate-section text-center">
+                <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Support The Guide</a>
+            </div>
         </div>
     </div>
     
@@ -390,7 +374,6 @@
         <div class="flex justify-center items-center gap-6 text-2xl">
             <a href="https://twitter.com/365charlesparis" target="_blank" class="footer-link"><i class="fab fa-twitter"></i></a>
             <a href="https://youtube.com/365charlesparis" target="_blank" class="footer-link"><i class="fab fa-youtube"></i></a>
-            <a href="https://paypal.me/overtimegrind" target="_blank" class="donate-button text-sm"><i class="fas fa-heart mr-2"></i>Donate</a>
         </div>
     </footer>
 
@@ -402,21 +385,21 @@
 
         const tipsData = [
             // --- Concepts & Setup ---
-            { id: 101, category: "concepts_setup", title: "Understanding Track Types", description: "MPC sequences are made of tracks: Audio, Drum, Keygroup, Plugin, MIDI, and CV. Each type serves a unique purpose for creating different elements of your song.", source: "Manual p.40", difficulty: "Easy", context: "The MPC is a multi-timbral device, meaning it can play multiple different sounds at once. Each sound source is assigned to a 'Track'. A DRUM track is for sample-based drum kits. A KEYGROUP track is for melodic sample-based instruments. A PLUGIN track hosts internal synth engines. An AUDIO track is for recording linear audio like vocals. MIDI and CV tracks are for controlling external hardware." },
-            { id: 102, category: "concepts_setup", title: "Project vs. Program vs. Sample", description: "A Project contains everything: sequences, tracks, programs, and samples. A Program (like a Drum Kit or Keygroup) holds samples and their settings. A Sample is the raw audio file.", source: "Manual p.356", difficulty: "Easy", context: "Think of it like a hierarchy. The Project is the entire song file (.xpj). Inside that project are Programs (.xpm), which are the instruments. Inside those programs are the individual audio Samples (.wav). Understanding this structure is key to managing your files." },
-            { id: 103, category: "concepts_setup", title: "Standalone vs. Controller Mode", description: "Standalone Mode runs the entire OS on the MPC hardware itself. Controller Mode connects the MPC to a computer to control the MPC 2 software or other DAWs like Ableton Live.", source: "Manual p.54", difficulty: "Easy", context: "Standalone mode is the MPC's main strength, allowing you to create music without a computer. Controller mode turns your MPC into a powerful hardware controller for the more feature-rich MPC Software on your Mac or PC, giving you access to VST/AU plugins and more processing power." },
-            { id: 104, category: "concepts_setup", title: "Installing a SATA Drive", description: "Expand your internal storage by installing a 2.5” SATA drive (SSD or HDD). This allows you to store more projects, samples, and content directly on your MPC.", source: "Manual p.427", difficulty: "Intermediate", context: "The internal storage on many MPCs is limited. Installing your own SATA SSD (Solid State Drive) is the best way to expand storage for your sample library and projects. It ensures all your files load quickly and are always available in standalone mode." },
-            { id: 105, category: "concepts_setup", title: "Activating Plugins", description: "Connect your MPC to the internet via Wi-Fi or Ethernet, then go to Preferences > Activate Plugins to log into your inMusic account and activate purchased instruments and effects.", source: "Manual p.57", difficulty: "Easy", context: "Many of the MPC's best instruments are 'premium' plugins that need to be activated online. This process links the plugin license to your specific MPC hardware. You only need to do this once per plugin." },
-            { id: 106, category: "concepts_setup", title: "Understanding Polyphony", description: "Polyphony refers to the number of notes or voices that can sound simultaneously. Be mindful of long-decaying samples and layered sounds, as the MPC has a finite number of voices.", source: "MPC Bible p.187", difficulty: "Easy", context: "Each sample layer, effect, and plugin voice uses up polyphony. If you exceed the maximum, you may experience 'note stealing', where older notes are cut off to make room for new ones. Techniques like using Mute Groups and resampling CPU-heavy tracks can help manage polyphony." },
-            { id: 107, category: "concepts_setup", title: "The Importance of Saving", description: "Regularly save your project to avoid losing work. Use 'Save As' to create different versions of your project, allowing you to revert to earlier ideas if needed.", source: "MPC Bible p.46", difficulty: "Easy", context: "An MPC project (.xpj) contains all sequences, programs, and sample assignments. The actual audio samples are stored in a corresponding [ProjectName]_ProjectData folder. When backing up or sharing, you must include both the .xpj file and its data folder." },
-            { id: 108, category: "concepts_setup", title: "Screen Brightness & Dimming", description: "Adjust screen brightness and auto-dimming settings in Preferences > Hardware to conserve battery life on portable MPCs and reduce eye strain.", source: "Manual p.60", difficulty: "Easy", context: "For MPC Live/Live II users, managing power is crucial. Setting the screen to dim after a short period of inactivity can significantly extend your battery life during a session." },
-            { id: 109, category: "concepts_setup", title: "Pad Sensitivity Settings", description: "Fine-tune how the pads respond to your touch in Preferences > Hardware. Adjust Pad Threshold and Pad Sensitivity to match your playing style.", source: "Manual p.60", difficulty: "Intermediate", context: "Pad Threshold sets the minimum force required to trigger a pad. Pad Sensitivity and Pad Curve adjust how velocity is registered. Experiment with these settings to find a response that feels natural and expressive for your finger drumming." },
-            { id: 110, category: "concepts_setup", title: "Understanding MIDI Channels", description: "MIDI channels (1-16) allow you to route MIDI data to specific instruments or devices. This is essential for controlling multiple external synths or different sounds within a multi-timbral plugin.", source: "Manual p.49", difficulty: "Easy", context: "When you set a MIDI track to output on Channel 1, only devices set to receive on Channel 1 will respond. This allows you to have 16 different hardware synths or plugin instances all playing unique parts from different tracks in your MPC." },
-            { id: 111, category: "concepts_setup", title: "Firmware Updates", description: "Regularly check for firmware updates on akaipro.com or via an internet connection in Preferences > Info. Updates provide new features, bug fixes, and stability improvements.", source: "Manual p.57", difficulty: "Easy", context: "Updating your firmware is crucial for getting the most out of your MPC. Updates can be installed via a USB drive or directly over Wi-Fi/Ethernet. Always back up your projects before performing an update." },
-            { id: 112, category: "concepts_setup", title: "File System Compatibility", description: "Your MPC can read and write to exFAT, FAT32, and NTFS drives. For best compatibility between Mac and PC, exFAT is recommended for your SD cards and USB/SATA drives.", source: "Manual p.132", difficulty: "Easy", context: "Formatting your storage drives correctly ensures that files can be easily transferred between your MPC and your computer. While the MPC can read HFS+ (Mac) drives, it cannot write to them. exFAT is the most flexible cross-platform option." },
-            { id: 113, category: "concepts_setup", title: "Audio Interface Expansion", description: "Connect a class-compliant USB audio interface to expand your MPC's audio inputs and outputs. This allows for multi-track recording and more flexible routing.", source: "Manual p.58", difficulty: "Intermediate", context: "In Preferences > Audio Device, you can select a connected USB interface. This is a game-changer for recording a full band or integrating multiple hardware synths, as it turns your MPC into the brain of a larger studio setup." },
-            { id: 114, category: "concepts_setup", title: "Default Project Templates", description: "Set up a project with your favorite settings, drum kits, and plugins, then save it as a template (MENU > SAVE > Save As Template). This can be your default starting point for all new projects.", source: "MPC Bible p.55", difficulty: "Easy", context: "A well-designed template dramatically speeds up your workflow. You can have tracks pre-named (Kick, Snare, Bass), your favorite reverb set up on a return channel, and your go-to drum kit loaded and ready to go, letting you capture ideas faster." },
-            { id: 115, category: "concepts_setup", title: "What are Q-Links?", description: "Q-Links are the rotary knobs on your MPC that can be mapped to control almost any parameter, from mixer levels to filter cutoffs and effect settings.", source: "Manual p.23", difficulty: "Easy", context: "Q-Links provide immediate, hands-on control over your sound. Their function changes depending on the current screen and selected Q-Link bank, making them incredibly versatile. You can also create custom Q-Link assignments in Q-LINK EDIT mode for performance macros." },
+            { id: 101, category: "concepts_setup", title: "Understanding Track Types", description: "Learn the unique purpose of each track type: Audio, Drum, Keygroup, Plugin, MIDI, and CV.", source: "Manual p.40", difficulty: "Easy", context: "<strong>How-To:</strong> In MAIN mode, tap the track name area. A window will appear allowing you to select a track type. <br><br><strong>Why:</strong> The MPC is multi-timbral, playing multiple sounds at once. Each sound source needs a specific track type. Use DRUM for sample kits, KEYGROUP for melodic samples, PLUGIN for internal synths, AUDIO for linear recordings like vocals, and MIDI/CV for external hardware." },
+            { id: 102, category: "concepts_setup", title: "Project vs. Program vs. Sample", description: "Understand the hierarchy: A Project contains Programs, and Programs contain Samples.", source: "Manual p.356", difficulty: "Easy", context: "<strong>How-To:</strong> Think of it like a folder system. The Project (.xpj) is the main folder for your song. Inside are Programs (.xpm), which are your instruments. Inside those are the individual audio Samples (.wav). <br><br><strong>Why:</strong> Knowing this structure is vital for file management. When you save a project, the MPC creates a `[ProjectName]_ProjectData` folder to store all the samples used. To share or back up a project, you need both the .xpj file and this data folder." },
+            { id: 103, category: "concepts_setup", title: "Standalone vs. Controller Mode", description: "Standalone Mode runs the entire OS on the MPC hardware itself. Controller Mode connects the MPC to a computer to control the MPC 2 software or other DAWs like Ableton Live.", source: "Manual p.54", difficulty: "Easy", context: "<strong>How-To:</strong> To switch modes, go to MENU and tap the MPC chip icon in the top right. Select 'Controller Mode' to connect to a computer, or 'Standalone' to work on the hardware alone. <br><br><strong>Why:</strong> Standalone mode is the MPC's main strength for computer-free creation. Controller mode turns your MPC into a powerful hardware interface for the more feature-rich MPC Software, giving you access to VST/AU plugins." },
+            { id: 104, category: "concepts_setup", title: "Installing a SATA Drive", description: "Expand your internal storage by installing a 2.5” SATA drive (SSD or HDD).", source: "Manual p.427", difficulty: "Intermediate", context: "<strong>How-To:</strong> Power off your MPC. Open the drive bay on the bottom of the unit. Connect your 2.5\" SATA drive (SSD is recommended for speed) and secure it with the provided screws. Power on the MPC and format the drive in PREFERENCES > HARDWARE. <br><br><strong>Why:</strong> The internal storage is limited. An internal SATA SSD is the fastest and most reliable way to expand storage for your sample library and projects in standalone mode." },
+            { id: 105, category: "concepts_setup", title: "Activating Plugins", description: "Connect your MPC to the internet, then go to Preferences > Activate Plugins to log in and activate purchased instruments and effects.", source: "Manual p.57", difficulty: "Easy", context: "<strong>How-To:</strong> In PREFERENCES, connect to Wi-Fi or Ethernet. Then go to the 'Activate Plugins' tab, log into your inMusic account, and follow the on-screen prompts. <br><br><strong>Why:</strong> Many of the MPC's best instruments are 'premium' plugins that need to be activated online. This process links the plugin license to your specific MPC hardware. You only need to do this once per plugin." },
+            { id: 106, category: "concepts_setup", title: "Understanding Polyphony", description: "Be mindful of polyphony (the number of simultaneous notes) to avoid sounds cutting each other off.", source: "MPC Bible p.187", difficulty: "Easy", context: "<strong>How-To:</strong> There's no direct control, but you manage it by being efficient. Use Mute Groups for hi-hats, keep reverb/delay tails in check, and resample or flatten CPU-heavy tracks. <br><br><strong>Why:</strong> Each sample layer, effect, and plugin voice uses up polyphony. If you exceed the maximum, you'll experience 'note stealing', where older notes are cut off to make room for new ones." },
+            { id: 107, category: "concepts_setup", title: "The Importance of Saving", description: "Regularly save your project. Use 'Save As' to create different versions of your project.", source: "MPC Bible p.46", difficulty: "Easy", context: "<strong>How-To:</strong> Go to MENU > SAVE. Use 'Save' to update the current project file. Use 'Save As' to create a new version with a different name (e.g., 'MyBeat_V2'). <br><br><strong>Why:</strong> An MPC project (.xpj) contains all sequences, programs, and sample assignments. Saving versions allows you to experiment freely, knowing you can always revert to an earlier idea." },
+            { id: 108, category: "concepts_setup", title: "Screen Brightness & Dimming", description: "Adjust screen brightness in Preferences > Hardware to conserve battery life and reduce eye strain.", source: "Manual p.60", difficulty: "Easy", context: "<strong>How-To:</strong> Go to PREFERENCES > HARDWARE. Here you can adjust the 'Brightness' slider and set the 'Screen Dim' time. <br><br><strong>Why:</strong> For MPC Live/Live II users, managing power is crucial. Setting the screen to dim after a short period of inactivity can significantly extend your battery life during a session." },
+            { id: 109, category: "concepts_setup", title: "Pad Sensitivity Settings", description: "Fine-tune how the pads respond to your touch in Preferences > Hardware.", source: "Manual p.60", difficulty: "Intermediate", context: "<strong>How-To:</strong> Go to PREFERENCES > HARDWARE. Adjust Pad Threshold (minimum force to trigger) and Pad Sensitivity/Curve to match your playing style. <br><br><strong>Why:</strong> Every drummer has a different touch. Experiment with these settings to find a response that feels natural and expressive for your finger drumming, allowing for more dynamic performances." },
+            { id: 110, category: "concepts_setup", title: "Understanding MIDI Channels", description: "Use MIDI channels (1-16) to route data to specific instruments or devices.", source: "Manual p.49", difficulty: "Easy", context: "<strong>How-To:</strong> On a MIDI track in MAIN mode, tap the 'MIDI Port' field. Select your connected device and the desired MIDI Channel. <br><br><strong>Why:</strong> This is essential for controlling multiple external synths. A track set to Channel 1 will only play the synth set to receive on Channel 1, allowing you to sequence an entire studio of hardware from your MPC." },
+            { id: 111, category: "concepts_setup", title: "Firmware Updates", description: "Regularly check for firmware updates on akaipro.com or via an internet connection in Preferences > Info.", source: "Manual p.57", difficulty: "Easy", context: "<strong>How-To:</strong> Connect to Wi-Fi/Ethernet and go to PREFERENCES > INFO. Tap 'Update' to check for and install new firmware. Alternatively, download the update to a USB drive from the Akai Pro website and update from there. <br><br><strong>Why:</strong> Updates provide major new features, bug fixes, and stability improvements. Always back up your projects before updating." },
+            { id: 112, category: "concepts_setup", title: "File System Compatibility", description: "Use exFAT formatted drives for the best compatibility between your MPC, Mac, and PC.", source: "Manual p.132", difficulty: "Easy", context: "<strong>How-To:</strong> Format your SD cards, USB drives, and SATA drives to the exFAT file system using your computer's disk utility. <br><br><strong>Why:</strong> The MPC can read/write to exFAT, FAT32, and NTFS. While it can read Mac HFS+ drives, it cannot write to them. exFAT is the most flexible universal option." },
+            { id: 113, category: "concepts_setup", title: "Audio Interface Expansion", description: "Connect a class-compliant USB audio interface to expand your MPC's audio inputs and outputs.", source: "Manual p.58", difficulty: "Intermediate", context: "<strong>How-To:</strong> Connect your interface to a USB port on the MPC. Go to PREFERENCES > AUDIO DEVICE and select your interface from the dropdown menu. You can now choose from its inputs in the SAMPLER and route tracks to its outputs in the CHANNEL MIXER. <br><br><strong>Why:</strong> This is a game-changer for multi-track recording and integrating hardware, turning your MPC into the brain of a larger studio setup." },
+            { id: 114, category: "concepts_setup", title: "Default Project Templates", description: "Set up a project with your favorite settings, then save it as a template to be your default starting point.", source: "MPC Bible p.55", difficulty: "Easy", context: "<strong>How-To:</strong> Create a new project and set it up exactly how you like (drum kits loaded, return effects ready, tracks named). Go to MENU > SAVE > Save As Template. Then, in PREFERENCES > PROJECT LOAD/SAVE, set your new template as the 'Default Template'. <br><br><strong>Why:</strong> A well-designed template dramatically speeds up your workflow, letting you capture ideas faster." },
+            { id: 115, category: "concepts_setup", title: "What are Q-Links?", description: "The rotary knobs on your MPC that can be mapped to control almost any parameter.", source: "Manual p.23", difficulty: "Easy", context: "<strong>How-To:</strong> The Q-Links automatically map to the parameters on the current screen. Use the Q-LINK button to cycle through different banks of controls. For custom control, see the 'Q-Link Edit Mode' tip. <br><br><strong>Why:</strong> Q-Links provide immediate, hands-on control over your sound. Their function changes depending on the screen, making them incredibly versatile for performance and automation." },
             
             // --- Main Mode & Workflow ---
             { id: 201, category: "main_mode_workflow", title: "Use Templates for Faster Startup", description: "Create a project template with your favorite drum kits, plugins, and mixer settings. Save it via Menu > Save > Save as Template. Load it automatically from Preferences > Project Load/Save.", source: "MPC Bible p.55", difficulty: "Easy", context: "A template saves your entire project state—loaded programs, track names, mixer settings, effects, etc. By creating a template with your go-to setup, you can skip the tedious process of loading the same sounds and configuring settings every time you start a new beat." },
@@ -427,7 +410,7 @@
             { id: 206, category: "main_mode_workflow", title: "Convert Song to Sequence", description: "After arranging your track in Song Mode, use the 'Convert > Seq' function to bounce the entire arrangement into a single, linear sequence for further editing or exporting.", source: "MPC Bible p.697", difficulty: "Intermediate", context: "Song Mode is great for arranging, but it has limitations (e.g., you can't record a continuous vocal track over it). Converting your song to a single long sequence makes it a linear track, just like in a traditional DAW. This is the final step before recording vocals or exporting the full track." },
             { id: 207, category: "main_mode_workflow", title: "Using the Metronome", description: "Enable the metronome by tapping the Metro icon in the toolbar. Tap and hold the icon to open its settings, where you can change the sound, volume, and count-in behavior.", source: "Manual p.72", difficulty: "Easy", context: "A metronome provides a steady click to help you record in time with your project's BPM. In the settings, you can configure a 'count-in' so the click plays for a bar before recording starts, giving you time to prepare." },
             { id: 208, category: "main_mode_workflow", title: "Accessing Shortcuts", description: "Swipe from the left edge of the screen to reveal five shortcut icons to your most-used modes. You can customize these by rearranging the icons in the Menu.", source: "Manual p.107", difficulty: "Easy", context: "The five icons in the first column of the MENU screen are always available as a quick-access sidebar. Drag your most frequently used modes (like BROWSER, SAMPLER, or PAD MIXER) to this first column to optimize your workflow and reduce menu diving." },
-            { id: 209, category: "main_mode_workflow", title: "Retrospective Record", description: "Played a great melody but forgot to hit record? Press Shift + Rec to capture the last MIDI performance you played into the currently selected track.", source: "MPC Bible p.97", difficulty: "Intermediate", context: "The MPC is always listening to your MIDI input. This powerful feature allows you to recover a performance even if you weren't in record mode. It's a lifesaver for capturing those moments of spontaneous creativity." },
+            { id: 209, category: "main_mode_workflow", title: "Retrospective Record", description: "Played a great melody but forgot to hit record? Press Shift + Rec to capture the last MIDI performance you played into the currently selected track.", source: "MPC Bible p.97", difficulty: "Intermediate", context: "<strong>How-To:</strong> If you play a great melody or drum pattern while not in record mode, immediately press <strong>SHIFT + REC</strong>. The MPC will place the MIDI data you just played onto the selected track. <br><br><strong>Why:</strong> This is a lifesaver for capturing spontaneous moments of creativity without the pressure of being in record mode. The MPC is always 'listening' to your MIDI input." },
             { id: 210, category: "main_mode_workflow", title: "The 'Erase' Button", description: "While a sequence is playing, hold the ERASE button and press a pad to delete all notes for that pad in real-time. A quick way to clean up a performance.", source: "Manual p.82", difficulty: "Easy", context: "This is a classic MPC workflow. If you recorded a messy hi-hat pattern, you can just hold ERASE and the hi-hat pad during playback to wipe the pattern clean without stopping the music, then record a new take on the next loop." },
             { id: 211, category: "main_mode_workflow", title: "Tap Tempo", description: "Quickly set your project's BPM by tapping the TAP TEMPO button in time with the rhythm you want. You can configure the number of taps required in Preferences.", source: "Manual p.330", difficulty: "Easy", context: "If you're sampling a loop and don't know its tempo, you can find it by tapping along to the beat. This is much faster than trying to guess the BPM manually." },
             { id: 212, category: "main_mode_workflow", title: "Sequence Naming", description: "Keep your project organized by giving each sequence a descriptive name (e.g., 'Intro', 'Verse 1', 'Chorus'). Tap the 'A' icon next to the sequence name in MAIN mode.", source: "MPC Bible p.18", difficulty: "Easy", context: "As your projects grow, having clearly named sequences is essential for efficient arranging in Song Mode or Next Sequence Mode. It's a simple habit that saves a lot of confusion later." },
@@ -447,7 +430,6 @@
             
             // --- Sampling & Sampler Mode ---
             { id: 301, category: "sampling_sampler", title: "Non-Destructive Slicing", description: "In Sample Edit > Chop, create your slices. Instead of converting to a new program immediately, you can play the slices directly from this mode, saving memory and time.", source: "MPC Bible p.487", difficulty: "Intermediate", context: "This method allows you to audition and perform with your chops without creating dozens of new audio files. The program simply references different start and end points within the original sample. It's a flexible, memory-efficient way to work with chopped loops." },
-            { id: 302, category: "sampling_sampler", title: "Auto-Sampler for Hardware Synths", description: "Use the Auto-Sampler to automatically create a keygroup program from an external hardware synthesizer. It will play and record notes across a defined range and velocity.", source: "Manual p.289", difficulty: "Hard", topTip: true, context: "This powerful feature 'clones' your external hardware synths. The MPC sends MIDI notes to your synth, records the audio output for each note, and automatically maps the recordings into a playable keygroup instrument. It's the best way to bring your hardware synth sounds into the standalone environment." },
             { id: 303, category: "sampling_sampler", title: "Recording with a Threshold", description: "In the Sampler, set a recording threshold. Recording will only begin when the incoming audio signal exceeds this level, preventing silence at the start of your samples.", source: "MPC Bible p.196", difficulty: "Easy", context: "Setting a threshold automates the start of your recording. Instead of manually trying to time your recording perfectly, the MPC will wait and start recording the instant it detects a sound, ensuring your samples are tight and clean from the start." },
             { id: 304, category: "sampling_sampler", title: "Resampling Internal Audio", description: "In the Sampler, set the input source to 'Resample L+R' to record any audio playing within your MPC project. This is perfect for creating new loops or flattening tracks with effects.", source: "MPC Bible p.519", difficulty: "Intermediate", topTip: true, context: "Resampling is a core MPC technique. It allows you to 'bounce' a track or even your entire mix into a new audio sample. You can then chop, flip, and re-process your own creations to generate new ideas, or use it to 'flatten' CPU-heavy plugin tracks to save resources." },
             { id: 305, category: "sampling_sampler", title: "Input Monitoring for Zero Latency", description: "In the Sampler, tap the Monitor button to hear your input source directly, bypassing any potential latency from effects processing while you record.", source: "Manual p.282", difficulty: "Easy", context: "When recording external instruments or vocals, latency (a slight delay) can make it difficult to perform in time. Enabling input monitoring lets you hear the live signal without any delay, ensuring your recordings are perfectly timed." },
@@ -469,7 +451,6 @@
             
             // --- Sample Edit & Chop ---
             { id: 401, category: "sample_edit_chop", title: "Time Stretching with Warp", description: "In Sample Edit, use the Warp function to change a sample's length without altering its pitch. This is essential for matching loops to your project's tempo.", source: "MPC Bible p.468", difficulty: "Intermediate", context: "Warping allows you to make a loop fit any BPM. The MPC offers several warp algorithms; 'Pro Ten' is generally the best for quality in standalone, while 'Elastique Pro' is superior in the MPC Software. Use it to sync loops or for creative sound design by extreme stretching." },
-            { id: 402, category: "sample_edit_chop", title: "Create Stems with AI", description: "In Sample Edit, use the 'Create Stems' function to separate a sample into vocals, bass, drums, and other musical elements using AI. A powerful tool for remixing and sampling.", source: "Manual p.186", difficulty: "Hard", topTip: true, context: "This groundbreaking feature lets you isolate parts of a finished song. Want just the vocals from a track? Or the drum break without the bassline? 'Create Stems' analyzes the audio and generates separate .wav files for each element, opening up a new world of sampling possibilities." },
             { id: 403, category: "sample_edit_chop", title: "Discard, Extract, and Process Slices", description: "In Sample Edit, use the Process menu to apply effects like Normalize, Reverse, or Pitch Shift to your sample. You can also Discard unwanted parts or Extract a selection as a new sample.", source: "MPC Bible p.211", difficulty: "Intermediate", context: "These are fundamental, destructive editing tools. 'Discard' permanently removes audio outside your start/end points. 'Extract' creates a new sample from the audio within your start/end points. 'Process' allows you to apply permanent changes like gain adjustments or creative effects." },
             { id: 404, category: "sample_edit_chop", title: "Using Chop Mode", description: "In Sample Edit, use Chop Mode to slice a sample into regions based on transients, BPM, or a set number of regions. This is the foundation of classic MPC workflows.", source: "MPC Bible p.396", difficulty: "Easy", suggestedTipId: 301, context: "Chopping is the art of slicing a sample (often a drum break or melodic loop) into smaller pieces to be replayed and rearranged on the pads. The MPC offers several methods: 'Regions' for equal divisions, 'BPM' for tempo-based slicing, and 'Threshold' for automatically detecting transients like drum hits." },
             { id: 405, category: "sample_edit_chop", title: "Zero Snap for Clean Loops", description: "In Sample Edit settings, enable 'Zero Snap' to force start and end points to a zero-crossing in the waveform. This prevents clicks and pops in your loops.", source: "MPC Bible p.209", difficulty: "Intermediate", context: "A zero-crossing is where the audio waveform has zero amplitude. Starting or ending an audio file at a point with amplitude can cause an audible click. 'Zero Snap' intelligently moves your edit points to the nearest zero-crossing, ensuring clean, pop-free loops and chops." },
@@ -479,7 +460,6 @@
             { id: 409, category: "sample_edit_chop", title: "Auditioning Slices", description: "In Chop mode, you can play back your slices by hitting the corresponding pads. Use the 'Slice' button to toggle between playing the entire sample or just the selected slice.", source: "Manual p.190", difficulty: "Easy", context: "Before committing to your chops, it's crucial to audition them. This allows you to check for clicks, adjust start/end points, and ensure each slice captures the sound you intended." },
             
             // --- Sequencing & Grid ---
-            { id: 501, category: "sequencing_grid", title: "Humanize Your Quantized Patterns", description: "After recording a quantized sequence, go to Sequence Edit > Humanize. Apply subtle randomization to timing and velocity to make your MIDI patterns feel more natural and less robotic.", source: "MPC Bible p.450", difficulty: "Intermediate", topTip: true, context: "Quantizing can make beats sound stiff. The Humanize function adds subtle, random variations to note timing, duration, and velocity, mimicking the imperfections of a live performance and adding groove and feel back into a rigid pattern." },
             { id: 502, category: "sequencing_grid", title: "Using Timing Correct (TC)", description: "Access the Timing Correct (TC) window to quantize your MIDI performances. You can adjust the time division, swing, strength, and other parameters to get the perfect feel.", source: "MPC Bible p.98", difficulty: "Easy", suggestedTipId: 501, context: "Timing Correct (or Quantize) aligns your recorded MIDI notes to a specific rhythmic grid (e.g., 1/16 notes). This is essential for creating tight, in-time drum patterns and melodic lines. You can apply it during recording or after the fact." },
             { id: 503, category: "sequencing_grid", title: "Editing Velocity in Grid View", description: "In Grid View, expand the velocity lane at the bottom to see and edit the velocity of each note. You can draw in new velocities with the pencil tool for dynamic patterns.", source: "MPC Bible p.91", difficulty: "Easy", context: "Velocity is a key component of an expressive performance. The Grid View's velocity lane allows you to visually edit the velocity of every note, letting you create crescendos, accents, and ghost notes to add dynamics and realism to your sequences." },
             { id: 504, category: "sequencing_grid", title: "Double the Length of a Sequence", description: "In Main Mode, tap the pencil icon next to the sequence name and select 'Double Length'. This will double the sequence length and duplicate all events, perfect for building out a pattern.", source: "MPC Bible p.116", difficulty: "Easy", context: "This is a quick way to turn a 2-bar loop into a 4-bar phrase, or a 4-bar phrase into an 8-bar section. It duplicates all MIDI and automation, giving you a longer canvas to add variations and turn simple loops into evolving musical parts." },
@@ -489,7 +469,6 @@
             { id: 508, category: "sequencing_grid", title: "Note Repeat / Latching", description: "Hold Note Repeat and a pad to play notes at a fixed rate (e.g., 1/16). Press Shift + Note Repeat to 'latch' it, keeping it active after you release the button.", source: "Manual p.74", difficulty: "Easy", context: "Note Repeat is essential for programming hi-hats, trap-style rolls, and synth arpeggios. Latching it frees up your hands to use the Q-Links to modulate parameters like filter cutoff or pitch while the notes are playing." },
             
             // --- Programs & Keygroups ---
-            { id: 601, category: "programs_keygroups", title: "Layer Samples with Velocity Switching", description: "In a Drum Program, assign multiple samples to the same pad on different layers. Use the Velocity Start/End ranges to trigger different samples depending on how hard you hit the pad.", source: "MPC Bible p.429", difficulty: "Hard", context: "This is a powerful technique for creating expressive, dynamic instruments. For example, you can assign a soft, medium, and hard snare sample to a single pad, and the MPC will play the appropriate sample based on how hard you play, mimicking the response of a real drum." },
             { id: 602, category: "programs_keygroups", title: "Flatten Pads to Save CPU", description: "If a drum pad has many layers and effects, it can use a lot of CPU. In Track Edit, use the 'Flatten Pad' function to resample the pad's entire sound into a single new sample, freeing up resources.", source: "MPC Bible p.517", difficulty: "Intermediate", context: "Complex layered sounds with multiple effects can be resource-intensive. 'Flatten Pad' renders the entire sound of a pad—including all layers and effects—into a new, single audio file. This drastically reduces CPU load, which is crucial for managing large projects in standalone mode." },
             { id: 603, category: "programs_keygroups", title: "Use the Mod Matrix for Complex Sounds", description: "In a Keygroup or Plugin program, use the Mod Matrix to route modulation sources (like LFOs or envelopes) to destinations (like pitch or filter cutoff) for evolving, complex sound design.", source: "Manual p.238", difficulty: "Hard", context: "The Modulation Matrix is the heart of advanced sound design. It allows you to create complex relationships between different parameters. For example, you can make an LFO control the filter cutoff while velocity controls the LFO's speed, creating dynamic, evolving textures." },
             { id: 604, category: "programs_keygroups", title: "Shaping Sounds with Envelopes", description: "In Track Edit, use the Amp and Filter envelopes to shape your sounds. Adjust the Attack, Decay, Sustain, and Release (ADSR) to control how a sound's volume and timbre evolve over time.", source: "MPC Bible p.152", difficulty: "Intermediate", context: "Envelopes are fundamental to sound design. The Amp Envelope controls a sound's volume over time (e.g., making a sound fade in slowly or end abruptly). The Filter Envelope controls the filter's cutoff over time, allowing you to create filter sweeps and other dynamic timbral changes." },
@@ -504,7 +483,6 @@
             { id: 704, category: "audio_tracks", title: "Punch In / Punch Out", description: "To fix a small mistake in a recording, use punch-in/out. Set a range in the timeline, and the MPC will only record within that range, leaving the rest of the take intact.", source: "Manual p.146", difficulty: "Intermediate", context: "This is a professional recording technique that saves you from having to re-record an entire performance. If you messed up one word in a vocal line, you can set a punch range around that word and re-record just that part seamlessly." },
             
             // --- Mixing & Effects ---
-            { id: 801, category: "mixing_effects", title: "Using Return Tracks for Effects", description: "Set up effects like reverb and delay on Return tracks instead of as inserts. This allows you to send multiple tracks to the same effect, saving CPU and creating a cohesive mix.", source: "MPC Bible p.344", difficulty: "Intermediate", topTip: true, context: "Instead of putting a separate reverb on your snare, hi-hats, and synth, create one Return track with a reverb plugin. Then, from each track's channel strip, use the 'Sends' to dial in how much of that track's signal you want to send to the reverb. This creates a more natural sound, as if all the instruments are in the same physical space." },
             { id: 802, category: "mixing_effects", title: "Sidechain Compression (Mother Ducker)", description: "Use the Mother Ducker effect on a bass or pad track and set its key input to your kick drum track. This will automatically lower the volume of the bass/pad whenever the kick hits, creating space in the mix.", source: "Manual p.267", difficulty: "Intermediate", context: "This is the classic technique for making a kick drum punch through the mix. The 'ducking' effect creates a rhythmic pumping that is a staple of electronic music. The Mother Ducker is a dedicated plugin that makes setting this up incredibly easy." },
             { id: 803, category: "mixing_effects", title: "Using Submixes (Groups)", description: "Route the output of multiple tracks (e.g., all your drum tracks) to a Submix track. This allows you to control the overall volume and apply effects to the entire group with a single fader.", source: "Manual p.255", difficulty: "Intermediate", context: "Submixes are essential for organized mixing. By grouping all your drums into one submix, you can apply 'bus compression' to glue them together, EQ the entire kit, or adjust the overall drum level without touching the individual track faders." },
             { id: 804, category: "mixing_effects", title: "Pre-Fader vs. Post-Fader Sends", description: "A 'Post-Fader' send (the default) sends a signal to a return track that is affected by the track's volume fader. A 'Pre-Fader' send is independent of the fader.", source: "MPC Bible p.348", difficulty: "Hard", context: "Use Post-Fader for effects like reverb and delay, so when you turn a track down, its reverb also gets quieter. Use Pre-Fader for creating separate headphone mixes, where you might want to hear a click track that isn't in the main mix." },
@@ -512,7 +490,6 @@
             // --- Automation & Q-Links ---
             { id: 901, category: "automation_qlinks", title: "Recording Q-Link Automation", description: "With the 'Write' automation button enabled (red), any movement of a Q-Link knob will be recorded into your sequence in real-time.", source: "Manual p.247", difficulty: "Easy", context: "This is the most intuitive way to add movement to your tracks. While the sequence plays, you can record a filter sweep, a volume fade, or a panning motion simply by turning a knob. The MPC captures your performance as automation data." },
             { id: 902, category: "automation_qlinks", title: "Editing Automation in the Grid", description: "In Grid Edit mode, switch the view from 'Velocity' to the parameter you automated (e.g., 'Filter Cutoff'). You can then edit the automation data with the pencil and line tools.", source: "MPC Bible p.368", difficulty: "Intermediate", context: "If your real-time automation performance wasn't perfect, you can edit it with precision in the Grid. Use the tools to draw in smooth lines, sharp steps, or complex curves to create perfect, tempo-synced modulation." },
-            { id: 903, category: "automation_qlinks", title: "Q-Link Edit Mode", description: "Press Shift + Q-Link to enter Q-Link Edit mode. Here you can create custom layouts, assigning any parameter from any track, program, or effect to any of the 16 Q-Link knobs.", source: "Manual p.249", difficulty: "Hard", topTip: true, context: "This is a power-user feature for performance. You can create a 'macro' page where one knob controls the filter cutoff for three different tracks simultaneously, another controls the delay feedback, and another controls the drum bus compression. It turns your MPC into a custom-built performance instrument." },
             
             // --- Sound Design & Synthesis ---
             { id: 1001, category: "sound_design_synthesis", title: "Exploring the Hype Synth", description: "The Hype synth is an incredibly versatile plugin with multiple synth engines (wavetable, FM, virtual analog). Explore its macros on the main page for quick sound shaping.", source: "MPC Plugin Manual", difficulty: "Intermediate", context: "Hype is a go-to synth for modern sounds. Don't just browse presets; learn what the four macro knobs do for each patch. They are designed to control the most important aspects of the sound, allowing you to quickly customize a preset to fit your track." },
@@ -579,44 +556,42 @@
         ];
 
         const drumPatterns = [
-            { name: "Classic Boom Bap", artist: "DJ Premier Style", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Funky Drummer", artist: "James Brown", pattern: { 'Kick': [0, 2, 7, 10], 'Snare': [4, 6, 12, 14], 'Hi-Hat': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
-            { name: "Basic Trap", artist: "Metro Boomin Style", pattern: { 'Kick': [0, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
-            { name: "Amen Break", artist: "The Winstons", pattern: { 'Kick': [0, 7, 10], 'Snare': [4, 12], 'Ride': [0, 2, 4, 6, 7, 8, 10, 12, 14, 15] } },
-            { name: "When the Levee Breaks", artist: "Led Zeppelin", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Billie Jean", artist: "Michael Jackson", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Grindin'", artist: "The Neptunes", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [2, 6, 10, 14], 'Perc': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
-            { name: "Impeach the President", artist: "The Honey Drippers", pattern: { 'Kick': [0, 7, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Fool's Gold", artist: "The Stone Roses", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
-            { name: "It's a New Day", artist: "Skull Snaps", pattern: { 'Kick': [0, 6, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Ashley's Roachclip", artist: "The Soul Searchers", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Synthetic Substitution", artist: "Melvin Bliss", pattern: { 'Kick': [0, 2, 8, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Think (About It)", artist: "Lyn Collins", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Tambourine': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
-            { name: "N.T.", artist: "Kool & The Gang", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "The Big Beat", artist: "Billy Squier", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Clap': [4, 12] } },
-            { name: "Walk This Way", artist: "Aerosmith / Run-DMC", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Planet Rock", artist: "Afrika Bambaataa", pattern: { 'Kick': [0, 6, 10], 'Snare': [4, 12], 'Clap': [4, 12] } },
-            { name: "Shook Ones, Pt. II", artist: "Mobb Deep", pattern: { 'Kick': [0, 2, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "C.R.E.A.M.", artist: "Wu-Tang Clan", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Still D.R.E.", artist: "Dr. Dre", pattern: { 'Kick': [0, 7], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Regulate", artist: "Warren G", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Passin' Me By", artist: "The Pharcyde", pattern: { 'Kick': [0, 6, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Runnin'", artist: "The Pharcyde (J Dilla Remix)", pattern: { 'Kick': [0, 3, 8, 11], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "The Message", artist: "Grandmaster Flash", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [6, 14], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Rock Box", artist: "Run-DMC", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Cowbell': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Paul Revere", artist: "Beastie Boys", pattern: { 'Kick': [0, 2, 4, 6, 8, 10, 12, 14], 'Snare': [], 'Hi-Hat': [] } },
-            { name: "Peter Piper", artist: "Run-DMC", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Cowbell': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
-            { name: "It Takes Two", artist: "Rob Base & DJ E-Z Rock", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Push It", artist: "Salt-N-Pepa", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "In Da Club", artist: "50 Cent", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Can I Kick It?", artist: "A Tribe Called Quest", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Mass Appeal", artist: "Gang Starr", pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Don't Believe the Hype", artist: "Public Enemy", pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "The Choice Is Yours", artist: "Black Sheep", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
-            { name: "Flava in Ya Ear", artist: "Craig Mack", pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } }
+            { name: "Classic Boom Bap", artist: "DJ Premier Style", bpm: 94, pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Funky Drummer", artist: "James Brown", bpm: 98, pattern: { 'Kick': [0, 2, 7, 10], 'Snare': [4, 6, 12, 14], 'Hi-Hat': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
+            { name: "Basic Trap", artist: "Metro Boomin Style", bpm: 140, pattern: { 'Kick': [0, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
+            { name: "Amen Break", artist: "The Winstons", bpm: 136, pattern: { 'Kick': [0, 7, 10], 'Snare': [4, 12], 'Ride': [0, 2, 4, 6, 7, 8, 10, 12, 14, 15] } },
+            { name: "When the Levee Breaks", artist: "Led Zeppelin", bpm: 72, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Billie Jean", artist: "Michael Jackson", bpm: 117, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Grindin'", artist: "The Neptunes", bpm: 98, pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [2, 6, 10, 14], 'Perc': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
+            { name: "Impeach the President", artist: "The Honey Drippers", bpm: 98, pattern: { 'Kick': [0, 7, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Fool's Gold", artist: "The Stone Roses", bpm: 113, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
+            { name: "It's a New Day", artist: "Skull Snaps", bpm: 105, pattern: { 'Kick': [0, 6, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Ashley's Roachclip", artist: "The Soul Searchers", bpm: 110, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Synthetic Substitution", artist: "Melvin Bliss", bpm: 98, pattern: { 'Kick': [0, 2, 8, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Think (About It)", artist: "Lyn Collins", bpm: 112, pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Tambourine': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
+            { name: "N.T.", artist: "Kool & The Gang", bpm: 100, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "The Big Beat", artist: "Billy Squier", bpm: 90, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Clap': [4, 12] } },
+            { name: "Walk This Way", artist: "Aerosmith / Run-DMC", bpm: 109, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Planet Rock", artist: "Afrika Bambaataa", bpm: 127, pattern: { 'Kick': [0, 6, 10], 'Snare': [4, 12], 'Clap': [4, 12] } },
+            { name: "Shook Ones, Pt. II", artist: "Mobb Deep", bpm: 94, pattern: { 'Kick': [0, 2, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "C.R.E.A.M.", artist: "Wu-Tang Clan", bpm: 93, pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Still D.R.E.", artist: "Dr. Dre", bpm: 93, pattern: { 'Kick': [0, 7], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Regulate", artist: "Warren G", bpm: 96, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Passin' Me By", artist: "The Pharcyde", bpm: 92, pattern: { 'Kick': [0, 6, 10], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Runnin'", artist: "The Pharcyde (J Dilla Remix)", bpm: 93, pattern: { 'Kick': [0, 3, 8, 11], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "The Message", artist: "Grandmaster Flash", bpm: 100, pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [6, 14], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Rock Box", artist: "Run-DMC", bpm: 115, pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Cowbell': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Paul Revere", artist: "Beastie Boys", bpm: 95, pattern: { 'Kick': [0, 2, 4, 6, 8, 10, 12, 14], 'Snare': [], 'Hi-Hat': [] } },
+            { name: "Peter Piper", artist: "Run-DMC", bpm: 100, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Cowbell': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] } },
+            { name: "It Takes Two", artist: "Rob Base & DJ E-Z Rock", bpm: 112, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Push It", artist: "Salt-N-Pepa", bpm: 128, pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "In Da Club", artist: "50 Cent", bpm: 90, pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Can I Kick It?", artist: "A Tribe Called Quest", bpm: 97, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Mass Appeal", artist: "Gang Starr", bpm: 94, pattern: { 'Kick': [0, 6], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Don't Believe the Hype", artist: "Public Enemy", bpm: 100, pattern: { 'Kick': [0, 4, 8, 12], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "The Choice Is Yours", artist: "Black Sheep", bpm: 102, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } },
+            { name: "Flava in Ya Ear", artist: "Craig Mack", bpm: 90, pattern: { 'Kick': [0, 8], 'Snare': [4, 12], 'Hi-Hat': [0, 2, 4, 6, 8, 10, 12, 14] } }
         ];
-
-        // ... (The rest of the data arrays will be defined below) ...
 
         const fxData = [
             // DYNAMICS
@@ -767,8 +742,6 @@
         const detailsGlossaryList = document.getElementById('details-glossary-list');
         const suggestedTipContainer = document.getElementById('suggested-tip-container');
         const suggestedTipBox = document.getElementById('suggested-tip-box');
-        const searchInput = document.getElementById('search-input');
-        const searchButton = document.getElementById('search-button');
         const downloadPdfButton = document.getElementById('download-pdf-button');
         const mpcSauceButton = document.getElementById('mpc-sauce-button');
         const mpcSauceModal = document.getElementById('mpc-sauce-modal');
@@ -834,7 +807,6 @@
                 const button = document.createElement('button');
                 button.className = 'tip-category-button';
                 button.dataset.category = category;
-                // A more robust way to format category names
                 const formattedName = category
                     .replace(/_/g, ' & ')
                     .replace(/\b\w/g, l => l.toUpperCase());
@@ -847,7 +819,7 @@
                     document.querySelectorAll('.tip-category-button').forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
                     currentCategory = button.dataset.category;
-                    displayTips(currentCategory, searchInput.value, currentDifficulty);
+                    displayTips(currentCategory, '', currentDifficulty);
                 });
             });
         }
@@ -881,14 +853,15 @@
 
             filteredTips.forEach(tip => {
                 const tipElement = document.createElement('div');
-                tipElement.className = 'card tip-item cursor-pointer';
+                tipElement.className = 'card p-6 cursor-pointer';
                 tipElement.innerHTML = `
                     <div class="flex-grow">
-                        <h4 class="text-xl font-semibold mb-2">${getIconHtml(tip.category)}${tip.title}</h4>
-                        <p class="text-sm mb-2">${tip.description}</p>
+                        <h4 class="text-xl font-semibold mb-2 flex items-center">${getIconHtml(tip.category)}${tip.title}</h4>
+                        <p class="text-gray-400 mb-4">${tip.description}</p>
                     </div>
-                    <div class="mt-auto pt-2 flex justify-end items-center">
-                         ${getDifficultyBadge(tip.difficulty)}
+                    <div class="mt-auto pt-4 flex justify-between items-center">
+                        ${getDifficultyBadge(tip.difficulty)}
+                        <span class="text-sm text-gray-500">Click to learn more</span>
                     </div>
                 `;
                 tipElement.addEventListener('click', () => openModal(tip));
@@ -898,22 +871,22 @@
         
         function displayTopTips() {
             topTipsContainer.innerHTML = '';
-            const topTips = tipsData.filter(tip => tip.topTip).slice(0, 6);
-            if(topTips.length < 6) {
-                // Fallback if not enough tips are marked as topTip
-                const fallbackTips = tipsData.filter(t => !t.topTip).slice(0, 6 - topTips.length);
+            const topTips = tipsData.filter(tip => tip.topTip).slice(0, 3);
+            if(topTips.length < 3) {
+                const fallbackTips = tipsData.filter(t => !t.topTip).slice(0, 3 - topTips.length);
                 topTips.push(...fallbackTips);
             }
             topTips.forEach(tip => {
-                 const tipElement = document.createElement('div');
-                tipElement.className = 'card p-4 rounded-lg cursor-pointer flex flex-col';
+                const tipElement = document.createElement('div');
+                tipElement.className = 'card p-6 rounded-lg cursor-pointer flex flex-col';
                 tipElement.innerHTML = `
                     <div class="flex-grow">
-                        <h4 class="text-lg font-semibold mb-2">${getIconHtml(tip.category)}${tip.title}</h4>
-                        <p class="text-sm text-gray-400">${tip.description}</p>
+                        <h4 class="text-xl font-semibold mb-2 flex items-center">${getIconHtml(tip.category)}${tip.title}</h4>
+                        <p class="text-base text-gray-400">${tip.description}</p>
                     </div>
-                    <div class="mt-auto pt-2 flex justify-end items-center">
+                    <div class="mt-auto pt-4 flex justify-between items-center">
                         ${getDifficultyBadge(tip.difficulty)}
+                        <span class="text-sm text-gray-500">Click to learn more</span>
                     </div>
                 `;
                 tipElement.addEventListener('click', () => openModal(tip));
@@ -1085,6 +1058,8 @@
             doc.setTextColor(0, 0, 255);
             const link = "https://365otg.github.io/AkaiMPCGuide/";
             doc.textWithLink("Interactive Web Version: Click Here", pageWidth / 2, y, { url: link, align: 'center' });
+            y += 8;
+            doc.textWithLink("Support this project: paypal.me/overtimegrind", pageWidth / 2, y, { url: "https://paypal.me/overtimegrind", align: 'center'});
             doc.setTextColor(0);
             y += 15;
 
@@ -1107,8 +1082,7 @@
                 }
 
                 const titleText = `${tip.title} (${tip.difficulty})`;
-                const descriptionText = tip.description;
-                const sourceText = `Source: ${tip.source}`;
+                const descriptionText = `How-To: ${tip.context.replace(/<br>/g, '\n').replace(/<strong>|<\/strong>/g, '')}`;
 
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'bold');
@@ -1128,13 +1102,7 @@
                 doc.setFontSize(10);
                 doc.setFont(undefined, 'normal');
                 doc.text(descriptionLines, margin, y);
-                y += descriptionLines.length * 5;
-
-                doc.setFontSize(8);
-                doc.setTextColor(150);
-                doc.text(sourceText, margin, y);
-                doc.setTextColor(0);
-                y += 10;
+                y += descriptionLines.length * 5 + 5; // Extra space
             });
 
             doc.save('The_MPC_Guide_Ultimate_Edition.pdf');
@@ -1231,14 +1199,33 @@
             patternContainer.className = 'mb-6';
 
             const title = document.createElement('h5');
-            title.className = 'text-xl font-semibold mb-2';
+            title.className = 'text-xl font-semibold mb-1';
             title.textContent = patternData.name;
             patternContainer.appendChild(title);
 
             const artist = document.createElement('p');
-            artist.className = 'text-sm text-gray-400 mb-2';
-            artist.textContent = `Style of: ${patternData.artist}`;
+            artist.className = 'text-sm text-gray-400 mb-3';
+            artist.textContent = `Style of: ${patternData.artist} (${patternData.bpm} BPM)`;
             patternContainer.appendChild(artist);
+            
+            const headerRow = document.createElement('div');
+            headerRow.className = 'flex items-center gap-2 mb-1';
+            const emptyHeader = document.createElement('div');
+            emptyHeader.className = 'w-20';
+            headerRow.appendChild(emptyHeader);
+            const gridHeader = document.createElement('div');
+            gridHeader.className = 'drum-pattern-grid flex-1';
+            gridHeader.style.backgroundColor = 'transparent';
+            gridHeader.style.padding = '0';
+            for(let i = 1; i <= 16; i++) {
+                const stepNum = document.createElement('div');
+                stepNum.className = 'text-xs text-center text-gray-500';
+                stepNum.textContent = i;
+                gridHeader.appendChild(stepNum);
+            }
+            headerRow.appendChild(gridHeader);
+            patternContainer.appendChild(headerRow);
+
 
             for (const instrument in patternData.pattern) {
                 const instrumentRow = document.createElement('div');
@@ -1281,20 +1268,8 @@
                 difficultySortButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 currentDifficulty = button.dataset.difficulty;
-                displayTips(currentCategory, searchInput.value, currentDifficulty);
+                displayTips(currentCategory, '', currentDifficulty);
             });
-        });
-
-        const performSearch = () => {
-            displayTips(currentCategory, searchInput.value, currentDifficulty);
-        };
-
-        searchButton.addEventListener('click', performSearch);
-        searchInput.addEventListener('input', performSearch); // Live search
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
         });
 
         downloadPdfButton.addEventListener('click', generatePdf);
@@ -1342,11 +1317,28 @@
         backToTipButton.addEventListener('click', showMainTipView);
 
         // --- INITIALIZATION ---
-        populateCategories();
-        displayTopTips();
-        displayTips(currentCategory, '', currentDifficulty);
-        populateMpcSauce();
-        populateUiGuide();
+        function init() {
+            populateCategories();
+            displayTopTips();
+            
+            // Set default category to Sampling
+            currentCategory = 'sampling_sampler';
+            document.querySelector('.tip-category-button.active').classList.remove('active');
+            const samplingButton = document.querySelector('.tip-category-button[data-category="sampling_sampler"]');
+            if (samplingButton) {
+                samplingButton.classList.add('active');
+            } else {
+                // Fallback to 'all' if the category doesn't exist for some reason
+                document.querySelector('.tip-category-button[data-category="all"]').classList.add('active');
+                currentCategory = 'all';
+            }
+            
+            displayTips(currentCategory, '', currentDifficulty);
+            populateMpcSauce();
+            populateUiGuide();
+        }
+
+        init();
     });
     </script>
 </body>
